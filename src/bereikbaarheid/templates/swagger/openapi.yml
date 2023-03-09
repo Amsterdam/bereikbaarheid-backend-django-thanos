@@ -1,0 +1,534 @@
+openapi: 3.0.0
+info:
+  title: Bereikbaarheid Amsterdam op Kenteken API
+  description: 'De API van Bereikbaarheid'
+  version: 1.0.0
+paths:
+  /traffic-signs/:
+    post:
+      operationId: traffic-signs
+      summary: Traffic signs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrafficSignsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficSignsResponse'
+  /permits/:
+    post:
+      operationId: permits
+      summary: Permits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermitsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermitsResponse'
+
+  /roads/prohibitory/:
+    post:
+      operationId: prohibitory
+      summary: Prohibitory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProhibitoryRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProhibitoryResponse'
+
+  /road-obstructions/:
+    post:
+      operationId: obstructions
+      summary: Obstructions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObstructionsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObstructionsRespone'
+
+  /roads/isochrones/:
+    post:
+      operationId: isochrones
+      summary: Isochrones
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IsochronesRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsochronesResponse'
+
+  /road-sections/load-unload/:
+    get:
+      operationId: sections
+      summary: Sections
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionResponse'
+
+  /road-elements/{element_id}/:
+    get:
+      operationId: element
+      summary: Elements
+      parameters:
+        - in: path
+          name: element_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the element to get
+
+      responses:
+        '200':
+          description: In this response either traffic_count or Traffic_obstructions is filled per object, the other item  wil then be an empty list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElementResponse'
+
+
+
+servers:
+  - url: /bereikbaarheid/v1/
+
+components:
+  schemas:
+    LatLon:
+      type: object
+      properties:
+        lat:
+          type: number
+          example: 52.363066102529295
+        lon:
+          type: number
+          example: 4.907205867943042
+
+    Coordinates:
+      type: array
+      items:
+        type: number
+        example: [4.891596473, 52.379125743]
+
+    Geom:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Point, MultiLineString or LineString
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+
+
+    PermitProperties:
+      type: object
+      properties:
+        permitLowemissionZone:
+          type: boolean
+        permitZzv:
+          type: boolean
+
+    TrafficSignCaftegoriesProperties:
+      type: object
+      properties:
+        trafficSignCategories:
+          type: array
+          items:
+            type: string
+            example: 'prohibition'
+
+    VehicleProperties:
+      type: object
+      required:
+        - vehileTotalWeight
+        - vehicleLength
+      properties:
+
+        vehicleLength:
+          type: number
+        vehicleHeight:
+          type: number
+        vehicleWidth:
+          type: number
+        vehicleAxleWeight:
+          type: integer
+        vehicleHasTrailer:
+          type: boolean
+        vehicleTotalWeight:
+          type: integer
+        vehicleMaxAllowedWeight:
+          type: integer
+        vehicleType:
+          type: string
+          example: "Bedrijfsauto"
+
+
+
+
+    TrafficSignsRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/VehicleProperties'
+        - $ref: '#/components/schemas/TrafficSignCaftegoriesProperties'
+
+    TrafficSignsResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: FeatureCollection
+        feature:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: Feature
+              geometry:
+                $ref: '#/components/schemas/Geom'
+
+
+              properties:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  type:
+                    type: string
+                    example: C01
+                  label:
+                    type: string
+                    example: a label
+                  label_as_value:
+                    type: number
+                    example: 0.0
+                  additional_info:
+                    type: string
+                  category:
+                    type: string
+                    example: verbod
+                  link_to_panoramic_image:
+                    type: string
+                    example: https://data/amsterdam.nl/data/geozoek?some=fakedata
+                  network_link_id:
+                    type: integer
+                    example: 20951
+                  street_name:
+                    type: string
+                    example: Lijnbaansgracht
+                  traffic_decree_id:
+                    type: integer
+                    nullable: true
+                  view_direction_in_degrees:
+                    type: integer
+                    example: 193
+    PermitsRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/LatLon'
+        - $ref: '#/components/schemas/PermitProperties'
+        - $ref: '#/components/schemas/VehicleProperties'
+
+    PermitsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            attributes:
+              type: object
+              properties:
+                heavy_good_vehicle_zone:
+                  type: boolean
+                in_amsterdam:
+                  type: boolean
+                low_emission_zone:
+                  type: boolean
+                rvv_permit_needed:
+                  type: boolean
+                time_window:
+                  type: number
+                wide_road:
+                  type: boolean
+                distance_to_destination_in_m:
+                  type: number
+                geom:
+                  $ref: '#/components/schemas/Geom'
+
+        errors:
+          type: array
+          items:
+            type: string
+            example:
+
+    ProhibitoryRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PermitProperties'
+        - $ref: '#/components/schemas/VehicleProperties'
+
+    ProhibitoryResponse:
+      type: object
+      properties:
+        feature:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: Feature
+              properties:
+                type: object
+                properties:
+                  bereikbaar_status_code:
+                    type: integer
+                  id:
+                    type: integer
+              geometry:
+                $ref: '#/components/schemas/Geom'
+
+
+    ObstructionsRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          example: '2023-01-01'
+        timeFrom:
+          type: string
+          example: 12:00
+        timeTo:
+          type: string
+          example: 23:00
+
+    ObstructionsRespone:
+      type: object
+      properties:
+        feature:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: "Feature"
+              properties:
+                type: object
+                properties:
+                  road_element_id:
+                    type: integer
+                  road_element_street_name:
+                    type: string
+                    example: koninginneweg
+                  road_element_accessibility_code:
+                    type: integer
+                    example: 333
+                  obstructions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activity:
+                          type: string
+                        reference:
+                          type: string
+                        url:
+                          type: string
+                          example: https://www.amsterdam.nl/projecten/werkzaamheden/overige/koninginneweg-afsluiting/
+                        start_date:
+                          type: string
+                          example: '2022-05-30T00:00:00'
+                        end_date:
+                          type: string
+                          example: '2023-05-30T00:00:00'
+
+              geometry:
+                $ref: '#/components/schemas/Geom'
+
+    IsochronesRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/LatLon'
+
+    IsochronesResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "Feature"
+        properties:
+          type: object
+          properties:
+            id:
+              type: integer
+            totalcost:
+              type: integer
+              example: 1158098
+        geometry:
+          $ref: '#/components/schemas/Geom'
+
+    SectionResponse:
+      type: object
+      properties:
+        feature:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: Feature
+              properties:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  street_name:
+                    type: string
+                    example: "Rhôneweg"
+                  load_unload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        road_section_id:
+                          type: integer
+                        direction:
+                          type: string
+                          example: "oost"
+                        additional_info:
+                          type: string
+                          example: verbod stil te staan
+                        days:
+                          type: string
+                          example: vr,za,zo
+                        start_time:
+                          type: string
+                          example: 00:00:00
+                        end_time:
+                          type: string
+                          example: 06:00:00
+              geometry:
+                 $ref: '#/components/schemas/Geom'
+
+    ElementResponse:
+      type: object
+      properties:
+        feature:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: "Feature"
+              properties:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  length_in_m:
+                    type: integer
+                    example: 29
+                  max_speed_in_km:
+                    type: integer
+                    example: 30
+                  street_name:
+                    type: string
+                    example: Botterstraat
+                  traffic_counts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        direction_1:
+                          type: string
+                          example: Noord (richting Sloterweg)
+                        direction_2:
+                          type: string
+                          example: Zuid (richting A4)
+                        known_interruptions:
+                          type: string
+                          example: Geen;
+                        langzaam_verkeer:
+                          type: boolean
+                        link_to_file:
+                          type: string
+                          example: 'https://verkeeramsterdam.nl/verkeerstellingen/Anderlechtlaan.Tel2016.xls'
+                        location_name:
+                          type: string
+                          example: 'Telpunt: Anderlechtlaan'
+                        meaures_between:
+                          type: string
+                          example: 'A4 - Sloterweg'
+                        method:
+                          type: string
+                          example: Telslang
+                        remarks:
+                          type: string
+                          example: Geen;
+                        snelverkeer:
+                          type: boolean
+
+                        traffic_type:
+                          type: string
+                          example: "beide"
+                        year:
+                          type: integer
+                          example: 2016
+                  traffic_obstructions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activity:
+                          type: string
+                        reference:
+                          type: string
+                        url:
+                          type: string
+                        start_date:
+                          type: string
+                        end_date:
+                          type: string
+
+              geometry:
+                $ref: '#/components/schemas/Geom'
+

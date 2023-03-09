@@ -1,0 +1,13 @@
+delete from bereikbaarheid.lastbeperking_in_zzv_zonder_vb ; insert into bereikbaarheid.lastbeperking_in_zzv_zonder_vb  VALUES,hyperlink,link_nr,name,zone_zzv,frc,lastbeperking_in_kg
+"(15279,NULL),",15279,15279,Leidsegracht,binnen,None,NULL
+"(15498,NULL),",15498,15498,Keizersgracht,binnen,8,NULL
+"(16465,NULL),",16465,16465,Singel,binnen,8,NULL
+"(17200,NULL),",17200,17200,Sint Antoniesbreestraat,binnen,None,NULL
+"(17394,NULL),",17394,17394,Koningsplein,binnen,8,NULL
+"(18202,NULL),",18202,18202,Singel,binnen,8,NULL
+"(18718,NULL),",18718,18718,Prinsengracht,binnen,8,NULL
+"(18972,NULL),",18972,18972,Plantage Middenlaan,binnen - breed opgezette wegen,8,NULL
+"(19145,NULL),",19145,19145,Kloveniersburgwal,binnen,None,NULL
+"(19338,7500),",19338,19338,Leidsegracht,binnen,None,7500
+"(20671,NULL),",20671,20671,Herengracht,binnen,None,NULL
+"(20784,30000),",20784,20784,Leidsegracht,binnen,8,30000

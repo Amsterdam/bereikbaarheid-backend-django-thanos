@@ -1,0 +1,30 @@
+linknr;name;e_type;laden_lossen;verkeersbord;dagen;begin_tijd;eind_tijd
+473333;1e Jacob van Campenstr;;gesloten voor mvt muv laden en lossen tijdens venstertijd;G07ZB;[ma, di, wo, do, vr, za];9:00:00;12:00:00
+473334;1e Jacob van Campenstr;;gesloten voor mvt muv laden en lossen tijdens venstertijd;G07ZB;[ma, di, wo, do, vr, za];9:00:00;12:00:00
+217224;1e Jacob van Campenstr;;gesloten voor mvt muv laden en lossen tijdens venstertijd;G07ZB;[ma, di, wo, do, vr, za, zo];0:00:00;23:59:00
+26553;Anne Frankstraat;;in een richting verbod stil te staan muv laden en lossen tijdens venstertijd;E02;[ma, di, wo, do, vr, za, zo];8:00:00;19:00:00
+22395;Berenstraat;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];0:00:00;11:59:00
+22395;Berenstraat;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];18:00:00;23:59:00
+29097;Beukenplein;;gesloten voor mvt muv laden en lossen;C06;[ma, di, wo, do, vr, za, zo];0:00:00;23:59:00
+208473;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-208474;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+208475;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-208476;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-208477;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-208480;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+208530;Dam;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-208531;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+-215098;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];7:00:00;11:00
+215099;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];07:00;11:00
+208467;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];7:00:00;11:00:00
+208472;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];7:00:00;11:00:00
+208474;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];7:00:00;11:00:00
+208476;Damrak;;eenrichtingsverkeer muv laden en lossen tijdens venstertijd;C01;[ma, di, wo, do, vr, za, zo];7:00:00;11:00:00
+;;;;;;;
+;;;;;;;
+-205176;Javaplein;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];0:00:00;11:59:00
+-205176;Javaplein;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];19:00:00;23:59:00
+-205177;Javaplein;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];0:00:00;11:59:00
+-205177;Javaplein;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];19:00:00;23:59:00
+-31344;Javastraat;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];0:00:00;11:59:00
+-31344;Javastraat;;verbod stil te staan;E02;[ma, di, wo, do, vr, za, zo];19:00:00;23:59:00

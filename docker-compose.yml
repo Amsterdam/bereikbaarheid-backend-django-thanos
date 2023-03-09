@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+
+  database:
+    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid-db}:${VERSION:-latest}
+    ports:
+      - "5409:5432"
+    environment:
+      POSTGRES_DB: bereikbaarheid
+      POSTGRES_USER: bereikbaarheid
+      POSTGRES_PASSWORD: insecure
+    build:
+      dockerfile: Dockerfile_pgrouting
+
+  app: &app
+    build:
+      context: .
+      target: app
+    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}:${VERSION:-latest}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./deploy:/deploy
+
+    depends_on:
+      - database
+
+  dev:
+    <<: *app
+    build:
+      target: dev
+    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}-dev:${VERSION:-latest}
+    environment:
+      - DEBUG=true
+      - SECRET_KEY=123456
+      - DJANGO_SETTINGS_MODULE=main.settings
+      - DATABASE_NAME=bereikbaarheid
+      - DATABASE_USER=bereikbaarheid
+      - DATABASE_PASSWORD=insecure
+    command:
+      python manage.py runserver 0.0.0.0:8000
+
+  test:
+    <<: *app
+    build:
+      target: tests
+    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}-test:${VERSION:-latest}
+    environment:
+      - DEBUG=true
+      - SECRET_KEY=123456
+      - DJANGO_SETTINGS_MODULE=main.settings
+      - DATABASE_NAME=bereikbaarheid
+      - DATABASE_USER=bereikbaarheid
+      - DATABASE_PASSWORD=insecure
+    command:
+      pytest

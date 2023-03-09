@@ -1,0 +1,15 @@
+linknr,binnen_amsterdam,binnen_polygoon_awb,milieuzone,zone_zwaar_verkeer_bus,zone_zwaar_verkeer_non_bus,zone_zwaar_verkeer_detail,tunnelcategorie_gevaarlijke_stoffen,tunnelnamen,route_gevaarlijke_stoffen,beleidsnet_auto,beleidsnet_ov,beleidsnet_fiets,beleidsnet_lopen,hoofdroute_taxi,touringcar_aanbevolen_routes,wettelijke_snelheid_actueel,wettelijke_snelheid_wens,wegcategorie_actueel,wegcategorie_wens,frc
+441,false,,false,false,false,buiten,,,,,,,,,,,,,,1
+587,false,,false,false,false,buiten,,,,,,,,,,,,,,8
+1176,true,,false,false,false,buiten,,,true,Auto_plusnet,,,,,,,,,,1
+1535,false,,false,false,false,buiten,,,,,,,,,,,,,,8
+3099,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+3142,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+3157,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+3225,true,,false,false,false,buiten,,,true,,,,,,,,,,,1
+4109,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+4117,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+4119,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+4159,true,,false,false,false,buiten,,,false,,,,,,,,,,,8
+5259,true,,false,false,false,buiten,,,,,,,,,,,,,,1
+5266,true,,false,false,false,buiten,,,,,,,,,,,,,,1
