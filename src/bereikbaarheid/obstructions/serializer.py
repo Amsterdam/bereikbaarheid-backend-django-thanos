@@ -1,6 +1,8 @@
-import pytz
-from marshmallow import Schema, fields, validates_schema, ValidationError, post_load
 from datetime import datetime, time
+
+import pytz
+from marshmallow import (Schema, ValidationError, fields, post_load,
+                         validates_schema)
 
 tz_amsterdam = pytz.timezone("Europe/Amsterdam")
 
@@ -13,17 +15,11 @@ class ObstructionsSerializer(Schema):
     )
 
     time_from = fields.Time(
-        format="%H:%M",
-        load_default=time.min,
-        required=False,
-        data_key='timeFrom'
+        format="%H:%M", load_default=time.min, required=False, data_key="timeFrom"
     )
 
     time_to = fields.Time(
-        format="%H:%M",
-        load_default=time.max,
-        required=False,
-        data_key='timeTo'
+        format="%H:%M", load_default=time.max, required=False, data_key="timeTo"
     )
 
     @post_load
@@ -34,8 +30,8 @@ class ObstructionsSerializer(Schema):
         :param kwargs:
         :return:
         """
-        data['datetime_from'] = datetime.combine(data["date"], data["time_from"])
-        data['datetime_to'] = datetime.combine(data["date"], data["time_to"])
+        data["datetime_from"] = datetime.combine(data["date"], data["time_from"])
+        data["datetime_to"] = datetime.combine(data["date"], data["time_to"])
 
         return data
 

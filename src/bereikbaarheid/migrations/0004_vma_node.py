@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bereikbaarheid", "0003_vma_directed_view"),
     ]

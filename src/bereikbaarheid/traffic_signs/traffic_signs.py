@@ -1,9 +1,10 @@
 import json
 
 from bereikbaarheid.utils import django_query_db
+
 from .query_conditions import conditions, transform_categories
 
-raw_query = '''
+raw_query = """
     select m.bord_id,
     m.rvv_modelnummer,
     m.tekst_waarde,
@@ -30,7 +31,7 @@ raw_query = '''
         or (m.rvv_modelnummer = 'C20' and %(aslast_gewicht)s > m.tekst_waarde) 
         or ((m.rvv_modelnummer = 'C21' or m.rvv_modelnummer = 'C21_ZB') and %(totaal_gewicht)s > m.tekst_waarde)
         or m.rvv_modelnummer in (%(verkeersborden_codes)s)
-)'''
+)"""
 
 
 def _transform_results(results: list) -> list[dict]:
@@ -40,23 +41,26 @@ def _transform_results(results: list) -> list[dict]:
     :return:
     """
 
-    return [{
-        'type': 'Feature',
-        'properties': {
-            'id': row[0],  # bord_id
-            'type': row[1],  # rvv_modelnummer
-            'label': row[3],  # tekst
-            'label_as_value': row[2],  # tekst_waarde
-            'additional_info': row[6],  # onderbord_tekst
-            'category': row[8],  # geldigheid
-            'link_to_panoramic_image': row[9],  # panorama
-            'network_link_id': row[5],  # link_gevalideerd
-            'street_name': row[11],  # straatnaam / name
-            'traffic_decree_id': row[7],  # verkeersbesluit
-            'view_direction_in_degrees': row[4]  # kijkrichtingen
-        },
-        'geometry': json.loads(row[10])  # geom
-    } for row in results]
+    return [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": row[0],  # bord_id
+                "type": row[1],  # rvv_modelnummer
+                "label": row[3],  # tekst
+                "label_as_value": row[2],  # tekst_waarde
+                "additional_info": row[6],  # onderbord_tekst
+                "category": row[8],  # geldigheid
+                "link_to_panoramic_image": row[9],  # panorama
+                "network_link_id": row[5],  # link_gevalideerd
+                "street_name": row[11],  # straatnaam / name
+                "traffic_decree_id": row[7],  # verkeersbesluit
+                "view_direction_in_degrees": row[4],  # kijkrichtingen
+            },
+            "geometry": json.loads(row[10]),  # geom
+        }
+        for row in results
+    ]
 
 
 def get_traffic_signs(data: dict) -> list[dict]:
@@ -65,11 +69,16 @@ def get_traffic_signs(data: dict) -> list[dict]:
     :param data:
     :return:
     """
-    sign_codes = conditions(data.pop('voertuig_type'), data.pop('max_massa'), data.pop('aanhanger'))
-    categories = transform_categories(data['verkeersborden_categorieen'])
-    results = django_query_db(raw_query, {
-        **data,
-        'verkeersborden_codes': "','".join(list(sign_codes)),
-        'verkeersborden_categorieen': "','".join(categories)
-    })
+    sign_codes = conditions(
+        data.pop("voertuig_type"), data.pop("max_massa"), data.pop("aanhanger")
+    )
+    categories = transform_categories(data["verkeersborden_categorieen"])
+    results = django_query_db(
+        raw_query,
+        {
+            **data,
+            "verkeersborden_codes": "','".join(list(sign_codes)),
+            "verkeersborden_categorieen": "','".join(categories),
+        },
+    )
     return _transform_results(results)

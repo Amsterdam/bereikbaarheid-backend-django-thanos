@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from import_export.resources import ModelResource
 from django.contrib.gis.geos import GEOSGeometry
+from import_export.resources import ModelResource
 
 from bereikbaarheid.models import VerkeersBorden
 from bereikbaarheid.resources.utils import refresh_materialized
@@ -9,7 +9,6 @@ from bereikbaarheid.resources.utils import refresh_materialized
 
 class VerkeersBordenResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-
         col_mapping = {
             "script_linknr": "link_nr",
             "rvv-modelnummer": "rvv_modelnummer",
@@ -26,7 +25,6 @@ class VerkeersBordenResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
     def before_import_row(self, row, row_number=None, **kwargs):
-
         if row["tekst_waarde"] == "NULL":
             row["tekst_waarde"] = ""
 
@@ -39,7 +37,6 @@ class VerkeersBordenResource(ModelResource):
         instance.versie = datetime.now()
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
-
         # refresh materialized vieuws when dry_run = False
         if not dry_run:
             refresh_materialized("bereikbaarheid_out_vma_undirected")

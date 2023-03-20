@@ -1,16 +1,16 @@
-from marshmallow import Schema, fields, validate, validates, post_load
-from bereikbaarheid.validation import voertuig, allowed_vehicle_types, is_company_car, \
-    is_bus
+from marshmallow import Schema, fields, post_load, validate, validates
+
+from bereikbaarheid.validation import (allowed_vehicle_types, is_bus,
+                                       is_company_car, voertuig)
 
 
 class ProhibitorySerializer(Schema):
-    permit_zone_milieu = fields.Boolean(required=True,
-                                              data_key='permitLowEmissionZone')
-    permit_zone_7_5 = fields.Boolean(required=True, data_key='permitZzv')
+    permit_zone_milieu = fields.Boolean(required=True, data_key="permitLowEmissionZone")
+    permit_zone_7_5 = fields.Boolean(required=True, data_key="permitZzv")
 
     aslast_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleAxleWeight',
+        data_key="vehicleAxleWeight",
         validate=[
             validate.Range(
                 min=voertuig["aslast_gewicht"]["min"],
@@ -19,11 +19,11 @@ class ProhibitorySerializer(Schema):
         ],
     )
 
-    aanhanger = fields.Boolean(required=True, data_key='vehicleHasTrailer')
+    aanhanger = fields.Boolean(required=True, data_key="vehicleHasTrailer")
 
     hoogte = fields.Float(
         required=True,
-        data_key='vehicleHeight',
+        data_key="vehicleHeight",
         validate=[
             validate.Range(
                 min=voertuig["hoogte"]["min"],
@@ -35,17 +35,15 @@ class ProhibitorySerializer(Schema):
 
     lengte = fields.Float(
         required=True,
-        data_key='vehicleLength',
+        data_key="vehicleLength",
         validate=[
-            validate.Range(
-                min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"]
-            )
+            validate.Range(min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"])
         ],
     )
 
     max_massa = fields.Integer(
         required=True,
-        data_key='vehicleMaxAllowedWeight',
+        data_key="vehicleMaxAllowedWeight",
         validate=[
             validate.Range(
                 min=voertuig["maximale_toegestaande_gewicht"]["min"],
@@ -56,7 +54,7 @@ class ProhibitorySerializer(Schema):
 
     totaal_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleTotalWeight',
+        data_key="vehicleTotalWeight",
         validate=[
             validate.Range(
                 min=voertuig["totaal_gewicht"]["min"],
@@ -67,7 +65,7 @@ class ProhibitorySerializer(Schema):
 
     breedte = fields.Float(
         required=True,
-        data_key='vehicleWidth',
+        data_key="vehicleWidth",
         validate=[
             validate.Range(
                 min=voertuig["breedte"]["min"], max=voertuig["breedte"]["max"]
@@ -75,7 +73,7 @@ class ProhibitorySerializer(Schema):
         ],
     )
 
-    voertuig_type = fields.String(required=True, data_key='vehicleType')
+    voertuig_type = fields.String(required=True, data_key="vehicleType")
 
     @validates("voertuig_type")
     def allowed_vehicle_types(self, value):
@@ -91,10 +89,7 @@ class ProhibitorySerializer(Schema):
         :param kwargs:
         :return:
         """
-        vehicle_type = data.pop('voertuig_type', '')
-        data['bedrijfsauto'] = is_company_car(vehicle_type)
-        data['bus'] = is_bus(vehicle_type)
+        vehicle_type = data.pop("voertuig_type", "")
+        data["bedrijfsauto"] = is_company_car(vehicle_type)
+        data["bus"] = is_bus(vehicle_type)
         return data
-
-
-

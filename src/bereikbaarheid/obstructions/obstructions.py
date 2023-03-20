@@ -1,6 +1,7 @@
 from django.db import connection
 
 from bereikbaarheid.utils import django_query_db
+
 raw_query = """
     select 
     ST_Transform(t1.geom, 4326)::json as geometry,
@@ -160,16 +161,19 @@ def _transform_results(results: list) -> list[dict]:
     :param results:
     :return:
     """
-    return [{
-        'type': 'Feature',
-        'geometry': row[0],
-        'properties': {
-            'road_element_id': row[1],
-            'road_element_street_name': row[2],
-            'road_element_accessibility_code': row[3],
-            'obstructions': row[4]
+    return [
+        {
+            "type": "Feature",
+            "geometry": row[0],
+            "properties": {
+                "road_element_id": row[1],
+                "road_element_street_name": row[2],
+                "road_element_accessibility_code": row[3],
+                "obstructions": row[4],
+            },
         }
-    } for row in results]
+        for row in results
+    ]
 
 
 def get_obstructions(data: dict):
@@ -178,9 +182,14 @@ def get_obstructions(data: dict):
     :param data:
     :return:
     """
-    results = django_query_db(raw_query, {
-        'pgr_dijkstra_cost_query': prepare_pgr_dijkstra_cost_query(data['datetime_from'], data['datetime_to']),
-        'datetime_from': data['datetime_from'],
-        'datetime_to': data['datetime_to']
-    })
+    results = django_query_db(
+        raw_query,
+        {
+            "pgr_dijkstra_cost_query": prepare_pgr_dijkstra_cost_query(
+                data["datetime_from"], data["datetime_to"]
+            ),
+            "datetime_from": data["datetime_from"],
+            "datetime_to": data["datetime_to"],
+        },
+    )
     return _transform_results(results)

@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, validate, validates
-from bereikbaarheid.validation import voertuig, allowed_vehicle_types
+
+from bereikbaarheid.validation import allowed_vehicle_types, voertuig
 
 
 class TrafficSignsSerializer(Schema):
@@ -15,59 +16,57 @@ class TrafficSignsSerializer(Schema):
             ),
         ),
         required=True,
-        data_key='trafficSignCategories',
-        validate=validate.Length(min=1)
+        data_key="trafficSignCategories",
+        validate=validate.Length(min=1),
     )
 
     aslast_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleAxleWeight',
+        data_key="vehicleAxleWeight",
         validate=[
             validate.Range(
                 min=voertuig["aslast_gewicht"]["min"],
                 max=voertuig["aslast_gewicht"]["max"],
             )
-        ]
+        ],
     )
 
-    aanhanger = fields.Boolean(required=True, data_key='vehicleHasTrailer')
+    aanhanger = fields.Boolean(required=True, data_key="vehicleHasTrailer")
 
     hoogte = fields.Float(
         required=True,
-        data_key='vehicleHeight',
+        data_key="vehicleHeight",
         validate=[
             validate.Range(
                 min=voertuig["hoogte"]["min"],
                 max=voertuig["hoogte"]["max"],
                 min_inclusive=False,
             )
-        ]
+        ],
     )
 
     lengte = fields.Float(
         required=True,
-        data_key='vehicleLength',
+        data_key="vehicleLength",
         validate=[
-            validate.Range(
-                min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"]
-            )
-        ]
+            validate.Range(min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"])
+        ],
     )
 
     max_massa = fields.Integer(
         required=True,
-        data_key='vehicleMaxAllowedWeight',
+        data_key="vehicleMaxAllowedWeight",
         validate=[
             validate.Range(
                 min=voertuig["maximale_toegestaande_gewicht"]["min"],
                 max=voertuig["maximale_toegestaande_gewicht"]["max"],
             )
-        ]
+        ],
     )
 
     totaal_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleTotalWeight',
+        data_key="vehicleTotalWeight",
         validate=[
             validate.Range(
                 min=voertuig["totaal_gewicht"]["min"],
@@ -76,11 +75,11 @@ class TrafficSignsSerializer(Schema):
         ],
     )
 
-    voertuig_type = fields.String(required=True, data_key='vehicleType')
+    voertuig_type = fields.String(required=True, data_key="vehicleType")
 
     breedte = fields.Float(
         required=True,
-        data_key='vehicleWidth',
+        data_key="vehicleWidth",
         validate=[
             validate.Range(
                 min=voertuig["breedte"]["min"], max=voertuig["breedte"]["max"]

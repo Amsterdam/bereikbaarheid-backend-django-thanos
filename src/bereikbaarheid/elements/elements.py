@@ -54,18 +54,21 @@ def _transform_results(results: list[tuple]) -> list[dict]:
     """
     Transform the elements query results into a geojson result
     """
-    return [{
-        'geometry': row[0],
-        'properties': {
-            'id': row[1],
-            'length_in_m': row[2],
-            'max_speed_in_km': row[3],
-            'street_name': row[4],
-            'traffic_counts': row[5],
-            'traffic_obstructions': row[6],
-        },
-        'type': 'Feature',
-    } for row in results]
+    return [
+        {
+            "geometry": row[0],
+            "properties": {
+                "id": row[1],
+                "length_in_m": row[2],
+                "max_speed_in_km": row[3],
+                "street_name": row[4],
+                "traffic_counts": row[5],
+                "traffic_obstructions": row[6],
+            },
+            "type": "Feature",
+        }
+        for row in results
+    ]
 
 
 def get_elements(element_id: int) -> list[dict]:
@@ -74,7 +77,5 @@ def get_elements(element_id: int) -> list[dict]:
     :param element_id:
     :return:
     """
-    results = django_query_db(raw_query, {
-        'road_element_id': element_id
-    })
+    results = django_query_db(raw_query, {"road_element_id": element_id})
     return _transform_results(results)
