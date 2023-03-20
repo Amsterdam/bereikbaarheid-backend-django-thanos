@@ -17,7 +17,7 @@ RUN apt install -y \
 COPY deploy deploy
 
 WORKDIR /app/src
-COPY requirements/requirements.txt requirements.txt
+COPY requirements.txt requirements.txt
 COPY src .
 
 RUN pip install -r requirements.txt
@@ -26,7 +26,7 @@ RUN pip install -r requirements.txt
 CMD ["/deploy/docker-run.sh"]
 
 FROM app as dev
-COPY requirements/requirements_dev.txt requirements_dev.txt
+COPY requirements_dev.txt requirements_dev.txt
 RUN pip install -r requirements_dev.txt
 
 
