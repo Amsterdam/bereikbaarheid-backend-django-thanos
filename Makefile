@@ -16,13 +16,13 @@ pip-tools:
 	pip install pip-tools
 
 install: pip-tools                  ## Install requirements and sync venv with expected state as defined in requirements.txt
-	pip-sync requirements/requirements.txt requirements/requirements_dev.txt
+	pip-sync requirements.txt requirements_dev.txt
 
 requirements: pip-tools             ## Upgrade requirements (in requirements.in) to latest versions and compile requirements.txt
 	## The --allow-unsafe flag should be used and will become the default behaviour of pip-compile in the future
 	## https://stackoverflow.com/questions/58843905
-	pip-compile --upgrade --output-file requirements/requirements.txt --allow-unsafe requirements/requirements.in
-	pip-compile --upgrade --output-file requirements/requirements_dev.txt --allow-unsafe requirements/requirements_dev.in
+	pip-compile --upgrade --output-file requirements.txt --allow-unsafe requirements.in
+	pip-compile --upgrade --output-file requirements_dev.txt --allow-unsafe requirements_dev.in
 
 upgrade: requirements install       ## Run 'requirements' and 'install' targets
 
