@@ -1,7 +1,12 @@
 from marshmallow import Schema, fields, post_load, validate, validates
 
-from bereikbaarheid.validation import (allowed_vehicle_types, bbox_adam,
-                                       is_bus, is_company_car, voertuig)
+from bereikbaarheid.validation import (
+    allowed_vehicle_types,
+    bbox_adam,
+    is_bus,
+    is_company_car,
+    voertuig,
+)
 
 
 class PermitSerializer(Schema):

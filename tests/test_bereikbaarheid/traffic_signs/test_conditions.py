@@ -1,7 +1,9 @@
 import pytest
 
 from bereikbaarheid.traffic_signs.query_conditions import (
-    conditions, transform_categories)
+    conditions,
+    transform_categories,
+)
 
 
 class TestConditions:

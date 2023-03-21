@@ -2,9 +2,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bereikbaarheid.traffic_signs.traffic_signs import (_transform_results,
-                                                        get_traffic_signs,
-                                                        raw_query)
+from bereikbaarheid.traffic_signs.traffic_signs import (
+    _transform_results,
+    get_traffic_signs,
+    raw_query,
+)
 from bereikbaarheid.utils import django_query_db
 
 QUERY_RESULT = [

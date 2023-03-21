@@ -1,9 +1,15 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from .views import (ElementsView, IsochronesView, ObstructionsView,
-                    PermitsView, ProhibitorView, SectionsView,
-                    TrafficSignsView)
+from .views import (
+    ElementsView,
+    IsochronesView,
+    ObstructionsView,
+    PermitsView,
+    ProhibitorView,
+    SectionsView,
+    TrafficSignsView,
+)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),

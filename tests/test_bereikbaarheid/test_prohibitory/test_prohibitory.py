@@ -2,8 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bereikbaarheid.prohibitory.prohibitory import (_transform_results,
-                                                    get_prohibitory)
+from bereikbaarheid.prohibitory.prohibitory import _transform_results, get_prohibitory
 
 QUERY_RESULT = [(123, 456, '{"geom":[4.12, 52.9]}')]
 

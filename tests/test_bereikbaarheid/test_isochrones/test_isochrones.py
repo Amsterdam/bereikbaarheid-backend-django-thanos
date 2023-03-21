@@ -2,8 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bereikbaarheid.isochrones.isochrones import (_transform_results,
-                                                  get_isochrones)
+from bereikbaarheid.isochrones.isochrones import _transform_results, get_isochrones
 
 QUERY_RESULT = [
     (

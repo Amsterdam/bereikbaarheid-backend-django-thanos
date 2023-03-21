@@ -9,18 +9,22 @@ from import_export.admin import ImportExportMixin, ImportMixin
 from import_export.formats import base_formats
 from import_export.forms import ImportExportFormBase
 
-from bereikbaarheid.models import (Gebieden, Lastbeperking, Stremmingen,
-                                   VenstertijdWegen, VerkeersBorden,
-                                   VerkeersTellingen, Verrijking, Vma)
+from bereikbaarheid.models import (
+    Gebieden,
+    Lastbeperking,
+    Stremmingen,
+    VenstertijdWegen,
+    VerkeersBorden,
+    VerkeersTellingen,
+    Verrijking,
+    Vma,
+)
 from bereikbaarheid.resources.gebieden_resource import GebiedenResource
-from bereikbaarheid.resources.lastbeperking_resource import \
-    LastbeperkingResource
+from bereikbaarheid.resources.lastbeperking_resource import LastbeperkingResource
 from bereikbaarheid.resources.stremmingen_resource import StremmingenResource
 from bereikbaarheid.resources.utils import GEOJSON, SCSV
-from bereikbaarheid.resources.venstertijdwegen_resource import \
-    VenstertijdWegenResource
-from bereikbaarheid.resources.verkeersborden_resource import \
-    VerkeersBordenResource
+from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenResource
+from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 

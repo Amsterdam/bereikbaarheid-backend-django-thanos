@@ -3,8 +3,7 @@ import json
 from django.test.client import RequestFactory
 from marshmallow import Schema, fields
 
-from bereikbaarheid.wrapper import (_extract_parameters, geo_json_response,
-                                    validate_data)
+from bereikbaarheid.wrapper import _extract_parameters, geo_json_response, validate_data
 
 
 class MockValidation(Schema):

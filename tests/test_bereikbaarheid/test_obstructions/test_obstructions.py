@@ -3,8 +3,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bereikbaarheid.obstructions.obstructions import (_transform_results,
-                                                      get_obstructions)
+from bereikbaarheid.obstructions.obstructions import (
+    _transform_results,
+    get_obstructions,
+)
 
 QUERY_RESULT = [
     (

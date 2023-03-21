@@ -1,8 +1,7 @@
 from datetime import datetime, time
 
 import pytz
-from marshmallow import (Schema, ValidationError, fields, post_load,
-                         validates_schema)
+from marshmallow import Schema, ValidationError, fields, post_load, validates_schema
 
 tz_amsterdam = pytz.timezone("Europe/Amsterdam")
 

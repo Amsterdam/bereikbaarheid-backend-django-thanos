@@ -2,8 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bereikbaarheid.elements.elements import (_transform_results, get_elements,
-                                              raw_query)
+from bereikbaarheid.elements.elements import _transform_results, get_elements, raw_query
 from bereikbaarheid.utils import django_query_db
 
 QUERY_RESULT = [
