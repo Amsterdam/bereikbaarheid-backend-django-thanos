@@ -1,3 +1,5 @@
+import json
+
 import csv
 import datetime
 
@@ -17,7 +19,11 @@ class GEOJSON(TablibFormat):
         Create tablib.dataset from geojson.
         """
 
-        data = in_stream
+        if isinstance(in_stream,dict):
+            data = in_stream
+        else:
+            data = json.load(tablib.utils.normalize_input(in_stream))
+
         try:
             crs = data["crs"]
         except:  # if not in Geojson -> default crs RD
