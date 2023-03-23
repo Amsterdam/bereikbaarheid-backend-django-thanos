@@ -1,1 +1,1 @@
-from obstructions import get_obstructions
+from .obstructions import get_obstructions

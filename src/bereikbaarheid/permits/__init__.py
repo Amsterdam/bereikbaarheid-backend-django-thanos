@@ -1,1 +1,1 @@
-from permits import get_permits
+from .permits import get_permits

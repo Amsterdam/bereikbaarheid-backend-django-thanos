@@ -1,1 +1,1 @@
-from prohibitory import get_prohibitory
+from .prohibitory import get_prohibitory
