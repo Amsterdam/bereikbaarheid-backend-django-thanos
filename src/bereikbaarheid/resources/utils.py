@@ -1,7 +1,6 @@
-import json
-
 import csv
 import datetime
+import json
 
 import pandas as pd
 import tablib
@@ -19,7 +18,7 @@ class GEOJSON(TablibFormat):
         Create tablib.dataset from geojson.
         """
 
-        if isinstance(in_stream,dict):
+        if isinstance(in_stream, dict):
             data = in_stream
         else:
             data = json.load(tablib.utils.normalize_input(in_stream))

@@ -1,6 +1,11 @@
-from marshmallow import Schema, fields, validate, validates, post_load
+from marshmallow import Schema, fields, post_load, validate, validates
 
-from bereikbaarheid.validation import allowed_vehicle_types, voertuig, is_bus, is_company_car
+from bereikbaarheid.validation import (
+    allowed_vehicle_types,
+    is_bus,
+    is_company_car,
+    voertuig,
+)
 
 
 class TrafficSignsSerializer(Schema):

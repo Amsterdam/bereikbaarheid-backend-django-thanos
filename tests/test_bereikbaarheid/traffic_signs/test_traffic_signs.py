@@ -39,14 +39,16 @@ class TestTrafficSign:
         result = django_query_db(
             raw_query,
             {
-                "verkeersborden_categorieen": [],
-                "verkeersborden_codes": [],
+                "verkeersborden_categorieen": ("fake_value",),
                 "lengte": 2,
                 "breedte": 2,
                 "hoogte": 6.02,
                 "aslast_gewicht": 3899,
                 "totaal_gewicht": 3899,
                 "max_massa": 4899,
+                "bedrijfsauto": True,
+                "bus": False,
+                "aanhanger": False
             },
         )
         assert result == []

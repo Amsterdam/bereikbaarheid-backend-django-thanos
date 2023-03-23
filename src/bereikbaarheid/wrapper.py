@@ -33,7 +33,7 @@ def _extract_parameters(request: HttpRequest) -> dict:
     :return:
     """
     if request.META["REQUEST_METHOD"] == "GET":
-        if 'trafficSignCategories' in request.META["QUERY_STRING"]:
+        if "trafficSignCategories" in request.META["QUERY_STRING"]:
             return fix_traffic_sign_categories(request)
         else:
             return dict(urllib.parse.parse_qsl(request.META["QUERY_STRING"]))
