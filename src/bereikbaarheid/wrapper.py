@@ -5,6 +5,26 @@ from django.http import HttpRequest, JsonResponse
 from marshmallow import ValidationError
 
 
+def fix_traffic_sign_categories(request) -> dict:
+    """
+    This is an edge case because array parameters for this field are send as as multiple parameters:
+    Example: 'trafficSignCategories=prohibition&trafficSignCategories=prohibition with exception'
+    This won't work with the current parsing of the values
+    TODO:: Remove this function when the frontend is switched to using the POST requests
+    :param request:
+    :return:
+    """
+    values = dict(urllib.parse.parse_qs(request.META["QUERY_STRING"]))
+    for key, value in values.items():
+        if "trafficSignCategories" in key:
+            continue
+        try:
+            values[key] = value[0]
+        except (ValueError, KeyError):
+            continue
+    return values
+
+
 def _extract_parameters(request: HttpRequest) -> dict:
     """
     Extract the parameters from either a get or post request
@@ -13,7 +33,10 @@ def _extract_parameters(request: HttpRequest) -> dict:
     :return:
     """
     if request.META["REQUEST_METHOD"] == "GET":
-        return dict(urllib.parse.parse_qsl(request.META["QUERY_STRING"]))
+        if 'trafficSignCategories' in request.META["QUERY_STRING"]:
+            return fix_traffic_sign_categories(request)
+        else:
+            return dict(urllib.parse.parse_qsl(request.META["QUERY_STRING"]))
     else:
         return json.loads(request.body)
 
