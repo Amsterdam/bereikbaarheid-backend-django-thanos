@@ -77,7 +77,8 @@ raw_query = """
             ) as bereikbaar_status_code,
             ST_AsGeoJSON(g.geom4326) as geom,
             g.zone_7_5,
-            g.milieuzone
+            g.milieuzone,
+            g.binnen_amsterdam
         from bereikbaarheid_out_vma_directed n
         left join (
             SELECT start_vid as source,
@@ -111,7 +112,7 @@ raw_query = """
                         or (c10 is true and %(aanhanger)s is false)
                     )
                 )',
-                683623,
+                902205,
                 array(
                     select node
                     from bereikbaarheid_out_vma_node
@@ -123,14 +124,14 @@ raw_query = """
             on abs(n.id) = g.id
             where abs(n.id) in (
                 select id from bereikbaarheid_out_vma_directed
-                where binnen_amsterdam is true and id > 0
+                where id > 0
             )
             and n.cost > 0
-
-        group by abs(n.id), g.geom4326, g.zone_7_5, g.milieuzone
+            
+        group by abs(n.id), g.geom4326, g.zone_7_5, g.milieuzone,g.binnen_amsterdam
         order by abs(n.id)
     ) v
-    where v.bereikbaar_status_code <> 999
+    where v.bereikbaar_status_code <> 999 and v.binnen_amsterdam is true
 """
 
 

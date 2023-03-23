@@ -53,7 +53,7 @@ raw_query = """
                 SELECT start_vid as source, end_vid as target, agg_cost
                 FROM pgr_dijkstraCost(
                     %(pgr_dijkstra_cost_query)s,
-                    683623,
+                    902205,
                     array(
                         select node
                         from bereikbaarheid_out_vma_node
