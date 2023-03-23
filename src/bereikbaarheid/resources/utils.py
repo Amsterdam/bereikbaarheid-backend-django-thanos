@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from import_export.formats.base_formats import TablibFormat, CSV
 
 import tablib
-from import_export.formats.base_formats import TablibFormat
+import json
 
 import csv
 import pandas as pd
@@ -19,7 +19,11 @@ class GEOJSON(TablibFormat):
         Create tablib.dataset from geojson.
         """
 
-        data = in_stream
+        if isinstance(in_stream,dict):
+            data = in_stream
+        else:
+            data = json.load(tablib.utils.normalize_input(in_stream))
+
         try:
             crs = data["crs"]
         except:  # if not in Geojson -> default crs RD

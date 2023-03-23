@@ -97,6 +97,10 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
     list_filter = ["binnen_amsterdam", "wegcategorie_actueel"]
     resource_classes = [VerrijkingResource]
 
+    # This will help you to disbale add functionality
+    def has_add_permission(self, request):
+        return False
+
 
 @admin.register(Vma)
 class VmaAdmin(ImportMixin, admin.ModelAdmin):
@@ -109,11 +113,15 @@ class VmaAdmin(ImportMixin, admin.ModelAdmin):
         """Returns available import formats."""
         return [GEOJSON]
 
+
     def import_action(self, request, *args, **kwargs):
         """
-        This method is overwritten battle the exponential growth of loading time when
-        chuck loading a large file. To keep the same behavior we had to import the whole
+        This method is overwritten to battle the exponential growth of loading time when
+        chuck loading a large GEOJSON-file. To keep the same behavior we had to import the whole
         method to not conflict with any other paths
+
+        Perform a dry_run of the import to make sure the import will not
+        result in errors.  If there are no errors, 'process_import' for the actual import.
         """
         if not self.has_import_permission(request):
             raise PermissionDenied
@@ -140,7 +148,7 @@ class VmaAdmin(ImportMixin, admin.ModelAdmin):
                 warnings.warn(
                     "The ImportForm class must inherit from ImportExportFormBase, "
                     "this is needed for multiple resource classes to work properly. ",
-                    category=DeprecationWarning,
+                    category=DeprecationWarning
                 )
                 import_form = form_class(
                     import_formats,
@@ -151,77 +159,78 @@ class VmaAdmin(ImportMixin, admin.ModelAdmin):
 
         resources = list()
         if request.POST and import_form.is_valid():
-            input_format = import_formats[
-                int(import_form.cleaned_data["input_format"])
-            ]()
+            input_format = import_formats[int(import_form.cleaned_data['input_format'])]()
             if not input_format.is_binary():
                 input_format.encoding = self.from_encoding
-            import_file = import_form.cleaned_data["import_file"]
+            import_file = import_form.cleaned_data['import_file']
 
-            """
-            This part is overwritten because the original chunking of the file would
-            have an exponential growth on loading time depending on the files size.
-            It got changed to read it for each row and create our own geojson dataset.
-            Which is then transformed in the custom dataframe loader(see: utils.GEOJSON)
-            to transform it to a dataframe to be used by the import-export module
-            """
-            data = {
-                "type": "FeatureCollection",
-                "name": "NAME_PLACEHOLDER",
-                "crs": {
-                    "type": "name",
-                    "properties": {"name": "urn:ogc:def:crs:EPSG::28992"},
-                },
-                "features": [],
-            }
-            for line in import_file:
-                s_line = (
-                    line.decode("utf-8").replace(",\n", "").replace("\n", "")
-                )  # remove ,\n and decode to string
-                if '"type": "Feature"' not in s_line:
-                    continue
-                data["features"].append(json.loads(s_line))
+            def _read_data(import_file) -> dict:
+                """
+                This part is overwritten because the original chunking of the file would
+                have an exponential growth on loading time depending on the files size.
+                It got changed to read it for each row and create our own geojson dataset.
+                Which is then transformed in the custom dataframe loader(see: utils.GEOJSON)
+                to transform it to a dataframe to be used by the import-export module
+                """
+                data = {
+                    "type": "FeatureCollection",
+                    "name": "NAME_PLACEHOLDER",
+                    "crs": {
+                        "type": "name",
+                        "properties": {"name": "urn:ogc:def:crs:EPSG::28992"},
+                    },
+                    "features": [],
+                }
+                for line in import_file:
+                    s_line = (
+                        line.decode("utf-8").replace(",\n", "").replace("\n", "")
+                    )  # remove ,\n and decode to string
+                    if '"type": "Feature"' not in s_line:
+                        continue
+                    data["features"].append(json.loads(s_line))
 
-            try:
-                dataset = input_format.create_dataset(data)
-            except Exception as e:
-                self.add_data_read_fail_error_to_form(import_form, e)
-            if not import_form.errors:
-                result = self.process_dataset(
-                    dataset,
-                    import_form,
-                    request,
-                    *args,
-                    raise_errors=False,
-                    rollback_on_validation_errors=True,
-                    **kwargs
-                )
-                if not result.has_errors() and not result.has_validation_errors():
-                    return self.process_result(result, request)
-                else:
-                    context["result"] = result
+                print(type(data))
+
+                return data
+
+            # This setting means we are going to skip the import confirmation step.
+            if  True: 
+                # Go ahead and process the file for import in a transaction
+                # If there are any errors, we roll back the transaction.
+                # rollback_on_validation_errors is set to True so that we rollback on
+                # validation errors. If this is not done validation errors would be
+                # silently skipped.
+
+                data = _read_data(import_file)
+
+                try:
+                    dataset = input_format.create_dataset(data)
+                except Exception as e:
+                    self.add_data_read_fail_error_to_form(import_form, e)
+                if not import_form.errors:
+                    result = self.process_dataset(dataset, import_form, request, *args, raise_errors=False,
+                                                  rollback_on_validation_errors=True, **kwargs)
+                    if not result.has_errors() and not result.has_validation_errors():
+                        return self.process_result(result, request)
+                    else:
+                        context['result'] = result
+ 
         else:
-            res_kwargs = self.get_import_resource_kwargs(
-                request, form=import_form, *args, **kwargs
-            )
+            res_kwargs = self.get_import_resource_kwargs(request, form=import_form, *args, **kwargs)
             resource_classes = self.get_import_resource_classes()
-            resources = [
-                resource_class(**res_kwargs) for resource_class in resource_classes
-            ]
+            resources = [resource_class(**res_kwargs) for resource_class in resource_classes]
 
         context.update(self.admin_site.each_context(request))
 
-        context["title"] = _("Import")
-        context["form"] = import_form
-        context["opts"] = self.model._meta
-        context["media"] = self.media + import_form.media
-        context["fields_list"] = [
-            (
-                resource.get_display_name(),
-                [f.column_name for f in resource.get_user_visible_fields()],
-            )
+        context['title'] = _("Import")
+        context['form'] = import_form
+        context['opts'] = self.model._meta
+        context['media'] = self.media + import_form.media
+        context['fields_list'] = [
+            (resource.get_display_name(), [f.column_name for f in resource.get_user_visible_fields()])
             for resource in resources
         ]
 
         request.current_app = self.admin_site.name
-        return TemplateResponse(request, [self.import_template_name], context)
+        return TemplateResponse(request, [self.import_template_name],
+                                context)
