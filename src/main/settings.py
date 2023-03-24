@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "import_export",
+    "leaflet",
 ] + LOCAL_APPS
 
 MIDDLEWARE = [
@@ -134,8 +135,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+#TODO: leaflet lijkt alleen te werken met CRS WebMercator. Misschien is mogelijk SRID/CRS om te zetten naar RD 28992? 
+LEAFLET_CONFIG = {
+    'TILES' : [ ('Amsterdam', "https://t1.data.amsterdam.nl/topo_wm_light/{z}/{x}/{y}.png", {'attribution': 'Kaartgegevens &copy; <a href="https://data.amsterdam.nl/">Gemeente Amsterdam </a>'}),],
+    'DEFAULT_CENTER': (4.9020727, 52.3717204),
+    'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 11,
+    'MAX_ZOOM': 22,
+    'SPATIAL_EXTENT': (3.2, 50.75, 7.22, 53.7),
+    'RESET_VIEW': False
+    }

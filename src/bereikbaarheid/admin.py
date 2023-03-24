@@ -4,10 +4,12 @@ import warnings
 from django.contrib import admin
 from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
-from django.utils.translation import gettext_lazy as _
+#from django.utils.translation import gettext_lazy as _
 
 from import_export.admin import ImportExportMixin, ImportMixin
 from import_export.forms import ImportExportFormBase
+from leaflet.admin import LeafletGeoAdminMixin
+
 
 from bereikbaarheid.models import (
     Gebieden,
@@ -56,13 +58,21 @@ class VenstertijdWegenAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 @admin.register(Gebieden)
-class GebiedenAdmin(ImportMixin, admin.ModelAdmin):
+class GebiedenAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     list_display = ["xid"]
     resource_classes = [GebiedenResource]
+    modifiable = False  # Make the leaflet map read-only
 
     def get_import_formats(self):
         """Returns available import formats."""
         return [GEOJSON]
+
+    # This will help you to disbale add functionality
+    def has_add_permission(self, request):
+        return False
+    
+    def has_delete_permission(self, request,obj=None):
+        return False  
 
 
 @admin.register(Lastbeperking)
@@ -79,10 +89,15 @@ class StremmingenAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 @admin.register(VerkeersBorden)
-class VerkeersBordenAdmin(ImportExportMixin, admin.ModelAdmin):
+class VerkeersBordenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     list_display = ["p_id", "bord_id", "geldigheid", "rvv_modelnummer"]
     list_filter = ["geldigheid", "rvv_modelnummer"]
     resource_classes = [VerkeersBordenResource]
+    modifiable = False  # Make the leaflet map read-only
+
+    # This will help you to disbale add functionality
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(Verrijking)
@@ -103,16 +118,22 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
 
 
 @admin.register(Vma)
-class VmaAdmin(ImportMixin, admin.ModelAdmin):
+class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     list_display = ["gid", "link_nr", "name"]
     resource_classes = [VmaResource]
+    modifiable = False  # Make the leaflet map read-only
     skip_admin_log = True
-    # skip_admin_confirm = True #werkt (nog) niet -> wel in settings: IMPORT_EXPORT_SKIP_ADMIN_CONFIRM = True , maar dan is er nergens meer een confirm pagina met de changes
 
     def get_import_formats(self):
         """Returns available import formats."""
         return [GEOJSON]
 
+    # This will help you to disbale add functionality
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request,obj=None):
+        return False        
 
     def import_action(self, request, *args, **kwargs):
         """
