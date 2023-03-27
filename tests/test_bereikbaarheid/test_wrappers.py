@@ -78,6 +78,6 @@ class TestWrappers:
         result = self.fake_view_geo(request="fake", data=data)
         assert result.status_code == 200
         assert json.loads(result.content) == {
-            "feature": data,
+            "features": data,
             "type": "FeatureCollection",
         }

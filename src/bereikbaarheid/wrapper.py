@@ -76,7 +76,7 @@ def geo_json_response(func):
     def wrapped(*args, **kwargs):
         return JsonResponse(
             status=200,
-            data={"feature": func(*args, **kwargs), "type": "FeatureCollection"},
+            data={"features": func(*args, **kwargs), "type": "FeatureCollection"},
         )
 
     return wrapped

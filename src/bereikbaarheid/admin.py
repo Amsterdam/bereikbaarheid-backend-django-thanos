@@ -4,13 +4,10 @@ import warnings
 from django.contrib import admin
 from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
-#from django.utils.translation import gettext_lazy as _
-
 from import_export.admin import ImportExportMixin, ImportMixin
 from import_export.formats import base_formats
 from import_export.forms import ImportExportFormBase
 from leaflet.admin import LeafletGeoAdminMixin
-
 
 from bereikbaarheid.models import (
     Gebieden,
@@ -30,6 +27,9 @@ from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenR
 from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
+
+# from django.utils.translation import gettext_lazy as _
+
 
 # TODO: gesprek met bas of truncate table voor import nodig is aangezien import module anders werkt dan voorheen.
 
@@ -68,9 +68,9 @@ class GebiedenAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     # This will help you to disbale add functionality
     def has_add_permission(self, request):
         return False
-    
-    def has_delete_permission(self, request,obj=None):
-        return False  
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Lastbeperking)
@@ -130,8 +130,8 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
-    def has_delete_permission(self, request,obj=None):
-        return False        
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     def import_action(self, request, *args, **kwargs):
         """
