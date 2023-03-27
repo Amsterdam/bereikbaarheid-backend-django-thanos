@@ -1,13 +1,12 @@
-from django.db import connection
-from django.core.exceptions import ValidationError
-from import_export.formats.base_formats import TablibFormat, CSV
-
-import tablib
+import csv
+import datetime
 import json
 
-import csv
 import pandas as pd
-import datetime
+import tablib
+from django.core.exceptions import ValidationError
+from django.db import connection
+from import_export.formats.base_formats import CSV, TablibFormat
 
 
 class GEOJSON(TablibFormat):
@@ -19,7 +18,7 @@ class GEOJSON(TablibFormat):
         Create tablib.dataset from geojson.
         """
 
-        if isinstance(in_stream,dict):
+        if isinstance(in_stream, dict):
             data = in_stream
         else:
             data = json.load(tablib.utils.normalize_input(in_stream))
@@ -59,7 +58,6 @@ class SCSV(CSV):
         return "semicolon_csv"
 
     def create_dataset(self, in_stream, **kwargs):
-
         delimiter = csv.Sniffer().sniff(in_stream, delimiters=";,").delimiter
         if delimiter != ";":
             raise ValidationError(
@@ -141,7 +139,6 @@ def convert_to_time(in_time: str = None):
 
 
 def convert_str(value: str, to: str = "float"):
-
     if "float" == to:
         try:
             value = float(value)

@@ -5,14 +5,13 @@ from bereikbaarheid.validation import allowed_vehicle_types
 
 
 class TestValidation:
-
     @pytest.mark.parametrize(
-        'vehicle_type',
+        "vehicle_type",
         [
-            ('Bedrijfsauto'),
-            ('Bus'),
-            ('Personenauto'),
-        ]
+            ("Bedrijfsauto"),
+            ("Bus"),
+            ("Personenauto"),
+        ],
     )
     def test_allowed_vehicle_types(self, vehicle_type):
         """
@@ -30,8 +29,6 @@ class TestValidation:
         """
 
         with pytest.raises(ValidationError) as excinfo:
-            allowed_vehicle_types('A Fake Value')
+            allowed_vehicle_types("A Fake Value")
 
         assert "Moet één zijn van:" in str(excinfo.value)
-
-

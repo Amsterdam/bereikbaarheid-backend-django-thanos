@@ -1,10 +1,5 @@
+from django.contrib.gis.db.models import MultiLineStringField, PointField, PolygonField
 from django.db import models
-from django.contrib.gis.db.models import (
-    PointField,
-    MultiLineStringField,
-    LineStringField,
-    PolygonField,
-)
 
 """
 Docs:

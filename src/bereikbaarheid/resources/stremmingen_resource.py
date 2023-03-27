@@ -6,7 +6,6 @@ from bereikbaarheid.resources.utils import convert_to_date
 
 class StremmingenResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-
         col_mapping = {
             "vma-linknr": "link_nr",
             "opmerk/beschrijving/": "opmerking",
@@ -21,7 +20,6 @@ class StremmingenResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
     def before_import_row(self, row, row_number=None, **kwargs):
-
         row["start_date"] = convert_to_date(row["start_date"])
         row["end_date"] = convert_to_date(row["end_date"])
 

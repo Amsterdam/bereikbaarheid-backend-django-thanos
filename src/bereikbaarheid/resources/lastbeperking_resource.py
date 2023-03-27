@@ -1,13 +1,11 @@
 from import_export.resources import ModelResource
-from bereikbaarheid.resources.utils import convert_str
 
 from bereikbaarheid.models import Lastbeperking
-from bereikbaarheid.resources.utils import refresh_materialized
+from bereikbaarheid.resources.utils import convert_str, refresh_materialized
 
 
 class LastbeperkingResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-
         col_mapping = {
             "linknr": "link_nr",
             "lastbeperking in kg": "lastbeperking_in_kg",
@@ -19,7 +17,6 @@ class LastbeperkingResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
     def before_import_row(self, row, row_number=None, **kwargs):
-
         if row["lastbeperking_in_kg"] == "NULL":
             row["lastbeperking_in_kg"] = None
 
@@ -32,7 +29,6 @@ class LastbeperkingResource(ModelResource):
         return super().skip_row(instance, original, row, import_validation_errors)
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
-
         # refresh materialized vieuws when dry_run = False
         if not dry_run:
             refresh_materialized("bereikbaarheid_out_vma_undirected")

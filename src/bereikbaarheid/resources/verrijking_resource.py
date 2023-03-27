@@ -1,5 +1,4 @@
 from import_export.resources import ModelResource
-from bereikbaarheid.resources.utils import truncate
 
 from bereikbaarheid.models import Verrijking
 from bereikbaarheid.resources.utils import refresh_materialized
@@ -7,7 +6,6 @@ from bereikbaarheid.resources.utils import refresh_materialized
 
 class VerrijkingResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-
         col_mapping = {
             "linknr": "link_nr",
         }
@@ -18,7 +16,6 @@ class VerrijkingResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
-
         # refresh materialized vieuws when dry_run = False
         if not dry_run:
             refresh_materialized("bereikbaarheid_out_vma_undirected")
