@@ -1,6 +1,5 @@
 from bereikbaarheid.utils import django_query_db
 
-
 raw_query = """
         with load_unload as (
             select abs(bd.link_nr) as linknr_abs,

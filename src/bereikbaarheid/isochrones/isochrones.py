@@ -1,6 +1,5 @@
 from bereikbaarheid.utils import django_query_db
 
-
 raw_query = """
 select 
     abs(sub.id) as id,
@@ -56,14 +55,17 @@ def _transform_results(results: list) -> list[dict]:
     :param results:
     :return:
     """
-    return [{
-        'properties': {
-            'id': row[0],
-            'totalcost': row[1],
-        },
-        'geometry': row[2],
-        'type': 'Feature'
-    } for row in results]
+    return [
+        {
+            "properties": {
+                "id": row[0],
+                "totalcost": row[1],
+            },
+            "geometry": row[2],
+            "type": "Feature",
+        }
+        for row in results
+    ]
 
 
 def get_isochrones(data: dict) -> list[dict]:
@@ -73,8 +75,6 @@ def get_isochrones(data: dict) -> list[dict]:
     :return:
     """
 
-    results = django_query_db(raw_query, {
-        **data
-    })
+    results = django_query_db(raw_query, {**data})
 
     return _transform_results(results)

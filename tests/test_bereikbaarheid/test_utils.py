@@ -1,4 +1,5 @@
 import pytest
+
 from bereikbaarheid.utils import django_query_db
 
 

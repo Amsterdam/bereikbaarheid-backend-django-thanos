@@ -1,4 +1,5 @@
 import json
+
 from bereikbaarheid.utils import django_query_db
 
 raw_query = """
@@ -142,12 +143,15 @@ def _transform_results(results: list) -> list[dict]:
     """
     return [
         {
-            'type': 'Feature',
-            'properties': {
-                'bereikbaar_status_code': row[1],  # bereikbaar_status_code
-                'id': row[0]},  # id
-            'geometry':  json.loads(row[2])  # geom
-        } for row in results]
+            "type": "Feature",
+            "properties": {
+                "bereikbaar_status_code": row[1],  # bereikbaar_status_code
+                "id": row[0],
+            },  # id
+            "geometry": json.loads(row[2]),  # geom
+        }
+        for row in results
+    ]
 
 
 def get_prohibitory(data: dict) -> list[dict]:
@@ -157,7 +161,5 @@ def get_prohibitory(data: dict) -> list[dict]:
     :return:
     """
 
-    result = django_query_db(raw_query, {
-        **data
-    })
+    result = django_query_db(raw_query, {**data})
     return _transform_results(result)
