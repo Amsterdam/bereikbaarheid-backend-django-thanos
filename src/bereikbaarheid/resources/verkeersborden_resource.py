@@ -30,9 +30,7 @@ class VerkeersBordenResource(ModelResource):
         if row["tekst_waarde"] == "NULL":
             row["tekst_waarde"] = ""
 
-        row["geometry"] = GEOSGeometry(
-            "POINT(%s %s)" % (row["rd_x"], row["rd_y"]), srid=28992
-        )
+        row["geometry"] = GEOSGeometry("POINT(%s %s)" % (row["rd_x"], row["rd_y"]), srid=28992)
 
     def after_import_instance(self, instance, new, row_number=None, **kwargs):
         # set versie on now() @TODO kan ook via model.py versie = models.DateField(auto_now=True) wat heeft voorkeur?

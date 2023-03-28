@@ -99,6 +99,10 @@ class VerkeersBorden(models.Model):
     panorama = models.CharField(max_length=500, blank=True, null=True)
     geometry = PointField(srid=28992)
 
+    def save(self, *args, **kwargs):
+        self.geometry = f"POINT({self.rd_x} {self.rd_y})"
+        return super().save(*args, **kwargs)
+
 
 class VerkeersTellingen(models.Model):
     """
