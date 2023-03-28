@@ -12,13 +12,7 @@ class TestUtils:
 
     @pytest.mark.parametrize(
         "value, expected_value",
-        [
-            ("true", True),
-            ("false", False),
-            (1, True),
-            (0, False),
-            ("gibberish", False)
-        ],
+        [("true", True), ("false", False), (1, True), (0, False), ("gibberish", False)],
     )
     def test_convert_to_bool(self, value, expected_value):
         assert expected_value == convert_to_bool(value)

@@ -28,11 +28,6 @@ from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResou
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 
-# from django.utils.translation import gettext_lazy as _
-
-
-# TODO: gesprek met bas of truncate table voor import nodig is aangezien import module anders werkt dan voorheen.
-
 admin.site.register(VerkeersTellingen)
 
 
