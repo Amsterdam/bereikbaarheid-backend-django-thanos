@@ -48,7 +48,7 @@ class TestTrafficSign:
                 "max_massa": 4899,
                 "bedrijfsauto": True,
                 "bus": False,
-                "aanhanger": False
+                "aanhanger": False,
             },
         )
         assert result == []

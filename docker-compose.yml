@@ -12,6 +12,8 @@ services:
       POSTGRES_PASSWORD: insecure
     build:
       dockerfile: Dockerfile_pgrouting
+    networks:
+      - backend
 
   app: &app
     build:
@@ -22,7 +24,6 @@ services:
       - ./src:/app/src
       - ./tests:/app/tests
       - ./deploy:/deploy
-
     depends_on:
       - database
 
@@ -40,6 +41,8 @@ services:
       - DATABASE_PASSWORD=insecure
     command:
       python manage.py runserver 0.0.0.0:8000
+    networks:
+      - backend
 
   test:
     <<: *app
@@ -55,3 +58,9 @@ services:
       - DATABASE_PASSWORD=insecure
     command:
       pytest
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: amsterdam-bereikbaarheid
