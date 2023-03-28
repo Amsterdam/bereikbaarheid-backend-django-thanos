@@ -1,6 +1,5 @@
 from marshmallow import ValidationError
 
-
 # Constants used for validating API parameters
 bbox_adam = {
     "lat": {"min": 52.2, "max": 52.47},

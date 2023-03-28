@@ -14,7 +14,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -143,13 +142,21 @@ STATIC_ROOT = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-#TODO: leaflet lijkt alleen te werken met CRS WebMercator. Misschien is mogelijk SRID/CRS om te zetten naar RD 28992? 
+# TODO: leaflet lijkt alleen te werken met CRS WebMercator. Misschien is mogelijk SRID/CRS om te zetten naar RD 28992?
 LEAFLET_CONFIG = {
-    'TILES' : [ ('Amsterdam', "https://t1.data.amsterdam.nl/topo_wm_light/{z}/{x}/{y}.png", {'attribution': 'Kaartgegevens &copy; <a href="https://data.amsterdam.nl/">Gemeente Amsterdam </a>'}),],
-    'DEFAULT_CENTER': (4.9020727, 52.3717204),
-    'DEFAULT_ZOOM': 12,
-    'MIN_ZOOM': 11,
-    'MAX_ZOOM': 21,
-    'SPATIAL_EXTENT': (3.2, 50.75, 7.22, 53.7),
-    'RESET_VIEW': False
-    }
+    "TILES": [
+        (
+            "Amsterdam",
+            "https://t1.data.amsterdam.nl/topo_wm_light/{z}/{x}/{y}.png",
+            {
+                "attribution": 'Kaartgegevens &copy; <a href="https://data.amsterdam.nl/">Gemeente Amsterdam </a>'
+            },
+        ),
+    ],
+    "DEFAULT_CENTER": (4.9020727, 52.3717204),
+    "DEFAULT_ZOOM": 12,
+    "MIN_ZOOM": 11,
+    "MAX_ZOOM": 21,
+    "SPATIAL_EXTENT": (3.2, 50.75, 7.22, 53.7),
+    "RESET_VIEW": False,
+}

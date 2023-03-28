@@ -40,7 +40,7 @@ push_semver:
 clean:                              ## Clean docker stuff
 	$(dc) down -v --remove-orphans
 
-test:                               ## Execute tests
+test: lint                               ## Execute tests
 	$(dc) run --rm test pytest /app/tests $(ARGS)
 
 dev: migrate						## Run the development app (and run extra migrations first)
@@ -80,3 +80,13 @@ kustomize:
 
 undeploy_kustomize:
 	kustomize build manifests/overlays/local | kubectl delete -f -
+
+lintfix:                            ## Execute lint fixes
+	$(run) test black /app/src/$(APP) /app/tests/$(APP)
+	$(run) test autoflake /app --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
+	$(run) test isort /app/src/$(APP) /app/tests/$(APP)
+
+
+lint:                               ## Execute lint checks
+	$(run) test autoflake /app --check --recursive --quiet
+	$(run) test isort --diff --check /app/src/$(APP) /app/tests/$(APP)

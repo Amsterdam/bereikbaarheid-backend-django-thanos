@@ -437,8 +437,10 @@ components:
                           type: string
                           example: verbod stil te staan
                         days:
-                          type: string
-                          example: vr,za,zo
+                          type: array
+                          items:
+                            type: string
+                            example: za
                         start_time:
                           type: string
                           example: 00:00:00

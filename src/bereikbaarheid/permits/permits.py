@@ -1,5 +1,4 @@
-import json
-from bereikbaarheid.utils import django_query_db
+from bereikbaarheid.utils import convert_to_bool, django_query_db
 
 raw_query = """
     select v.id,
@@ -49,7 +48,7 @@ raw_query = """
             ),
             28992
         )
-    ) as afstand_in_m,
+    )::int as afstand_in_m,
 
     ven.dagen as venstertijd,
 
@@ -167,17 +166,17 @@ def _transform_results(result: tuple) -> dict:
     :return:
     """
     return {
-        'id': result[0],  # id
-        'attributes': {
-            'heavy_goods_vehicle_zone': result[2],  # zone_7_5_boolean
-            'in_amsterdam': result[4],  # boolean_in_amsterdam
-            'low_emission_zone': result[1],  # miliezone_boolean
-            'rvv_permit_needed': result[3],  # rvv_boolean
-            'time_window': result[7],  # venstertijd
-            'wide_road': result[8],  # zone_7_5_detail
-            'distance_to_destination_in_m': result[6],  # afstand_in_m
-            'geom': result[5]  # geom
-        }
+        "id": result[0],  # id
+        "attributes": {
+            "heavy_goods_vehicle_zone": convert_to_bool(result[2]),  # zone_7_5_boolean
+            "in_amsterdam": convert_to_bool(result[4]),  # boolean_in_amsterdam
+            "low_emission_zone": convert_to_bool(result[1]),  # miliezone_boolean
+            "rvv_permit_needed": convert_to_bool(result[3]),  # rvv_boolean
+            "time_window": result[7],  # venstertijd
+            "wide_road": convert_to_bool(result[8]),  # zone_7_5_detail
+            "distance_to_destination_in_m": result[6],  # afstand_in_m
+            "geom": result[5],  # geom
+        },
     }
 
 
@@ -187,7 +186,5 @@ def get_permits(data: dict) -> dict:
     :param data:
     :return:
     """
-    results = django_query_db(raw_query, {
-        **data
-    }, single=True)
+    results = django_query_db(raw_query, {**data}, single=True)
     return _transform_results(results)

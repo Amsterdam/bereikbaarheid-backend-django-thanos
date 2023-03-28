@@ -1,7 +1,4 @@
-from django.http import HttpRequest, JsonResponse, HttpResponse
-from django.shortcuts import render
-from django.template import TemplateDoesNotExist
-from django.template.loader import _engine_list
+from django.http import HttpRequest, JsonResponse
 from django.views import View
 
 from bereikbaarheid.elements import get_elements
@@ -16,7 +13,7 @@ from bereikbaarheid.prohibitory.serializers import ProhibitorySerializer
 from bereikbaarheid.sections import get_sections
 from bereikbaarheid.traffic_signs import get_traffic_signs
 from bereikbaarheid.traffic_signs.serializers import TrafficSignsSerializer
-from bereikbaarheid.wrapper import validate_data, geo_json_response
+from bereikbaarheid.wrapper import geo_json_response, validate_data
 
 
 class TrafficSignsView(View):
@@ -41,10 +38,14 @@ class PermitsView(View):
     """
     Return the permits based on location and vehicle properties
     """
+
     def handle(self, request, data: dict, *args, **kwargs):
-        return JsonResponse(status=200, data={
-            "data": get_permits(data),
-        })
+        return JsonResponse(
+            status=200,
+            data={
+                "data": get_permits(data),
+            },
+        )
 
     @validate_data(PermitSerializer)
     def get(self, request, serialized_data: dict, *args, **kwargs):
@@ -77,6 +78,7 @@ class ObstructionsView(View):
     """
     return Obstructions
     """
+
     @geo_json_response
     def handle(self, request, data: dict, *args, **kwargs):
         return get_obstructions(data)
@@ -107,6 +109,7 @@ class IsochronesView(View):
     """
     Return Isochrones
     """
+
     @geo_json_response
     def handle(self, request, data: dict, *args, **kwargs):
         return get_isochrones(data)
@@ -121,7 +124,6 @@ class IsochronesView(View):
 
 
 class SectionsView(View):
-
     @geo_json_response
     def get(self, request, *args, **kwargs):
         return get_sections()

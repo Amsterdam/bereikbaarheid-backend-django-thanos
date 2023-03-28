@@ -1,33 +1,35 @@
-from marshmallow import Schema, fields, validate, validates, post_load
-from bereikbaarheid.validation import bbox_adam, voertuig, allowed_vehicle_types, is_company_car, is_bus
+from marshmallow import Schema, fields, post_load, validate, validates
+
+from bereikbaarheid.validation import (
+    allowed_vehicle_types,
+    bbox_adam,
+    is_bus,
+    is_company_car,
+    voertuig,
+)
 
 
 class PermitSerializer(Schema):
     lat = fields.Float(
         required=True,
         validate=[
-            validate.Range(
-                min=bbox_adam["lat"]["min"], max=bbox_adam["lat"]["max"]
-            )
+            validate.Range(min=bbox_adam["lat"]["min"], max=bbox_adam["lat"]["max"])
         ],
     )
 
     lon = fields.Float(
         required=True,
         validate=[
-            validate.Range(
-                min=bbox_adam["lon"]["min"], max=bbox_adam["lon"]["max"]
-            )
+            validate.Range(min=bbox_adam["lon"]["min"], max=bbox_adam["lon"]["max"])
         ],
     )
 
-    permit_zone_milieu = fields.Boolean(required=True,
-                                        data_key='permitLowEmissionZone')
-    permit_zone_7_5 = fields.Boolean(required=True, data_key='permitZzv')
+    permit_zone_milieu = fields.Boolean(required=True, data_key="permitLowEmissionZone")
+    permit_zone_7_5 = fields.Boolean(required=True, data_key="permitZzv")
 
     aslast_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleAxleWeight',
+        data_key="vehicleAxleWeight",
         validate=[
             validate.Range(
                 min=voertuig["aslast_gewicht"]["min"],
@@ -36,11 +38,11 @@ class PermitSerializer(Schema):
         ],
     )
 
-    aanhanger = fields.Boolean(required=True, data_key='vehicleHasTrailer')
+    aanhanger = fields.Boolean(required=True, data_key="vehicleHasTrailer")
 
     hoogte = fields.Float(
         required=True,
-        data_key='vehicleHeight',
+        data_key="vehicleHeight",
         validate=[
             validate.Range(
                 min=voertuig["hoogte"]["min"],
@@ -52,17 +54,15 @@ class PermitSerializer(Schema):
 
     lengte = fields.Float(
         required=True,
-        data_key='vehicleLength',
+        data_key="vehicleLength",
         validate=[
-            validate.Range(
-                min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"]
-            )
+            validate.Range(min=voertuig["lengte"]["min"], max=voertuig["lengte"]["max"])
         ],
     )
 
     breedte = fields.Float(
         required=True,
-        data_key='vehicleWidth',
+        data_key="vehicleWidth",
         validate=[
             validate.Range(
                 min=voertuig["breedte"]["min"], max=voertuig["breedte"]["max"]
@@ -72,7 +72,7 @@ class PermitSerializer(Schema):
 
     max_massa = fields.Integer(
         required=True,
-        data_key='vehicleMaxAllowedWeight',
+        data_key="vehicleMaxAllowedWeight",
         validate=[
             validate.Range(
                 min=voertuig["maximale_toegestaande_gewicht"]["min"],
@@ -83,7 +83,7 @@ class PermitSerializer(Schema):
 
     totaal_gewicht = fields.Integer(
         required=True,
-        data_key='vehicleTotalWeight',
+        data_key="vehicleTotalWeight",
         validate=[
             validate.Range(
                 min=voertuig["totaal_gewicht"]["min"],
@@ -92,8 +92,7 @@ class PermitSerializer(Schema):
         ],
     )
 
-    voertuig_type = fields.String(required=True, data_key='vehicleType')
-
+    voertuig_type = fields.String(required=True, data_key="vehicleType")
 
     @validates("voertuig_type")
     def allowed_vehicle_types(self, value):
@@ -109,9 +108,7 @@ class PermitSerializer(Schema):
         :param kwargs:
         :return:
         """
-        vehicle_type = data.pop('voertuig_type', '')
-        data['bedrijfsauto'] = is_company_car(vehicle_type)
-        data['bus'] = is_bus(vehicle_type)
+        vehicle_type = data.pop("voertuig_type", "")
+        data["bedrijfsauto"] = is_company_car(vehicle_type)
+        data["bus"] = is_bus(vehicle_type)
         return data
-
-

@@ -1,10 +1,6 @@
+from django.contrib.gis.db.models import MultiLineStringField, PointField, PolygonField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.contrib.gis.db.models import (
-    PointField,
-    MultiLineStringField,
-    LineStringField,
-    PolygonField,
-)
 
 """
 Docs:
@@ -60,7 +56,7 @@ class VenstertijdWegen(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     e_type = models.CharField(max_length=255, blank=True, null=True)
     verkeersbord = models.CharField(max_length=255, blank=True, null=True)
-    dagen = models.TextField(max_length=255)
+    dagen = ArrayField(models.CharField(max_length=10, blank=True, null=True))
     begin_tijd = models.TimeField(blank=True, null=True)
     eind_tijd = models.TimeField(blank=True, null=True)
 

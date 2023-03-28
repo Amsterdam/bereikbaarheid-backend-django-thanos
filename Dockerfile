@@ -37,6 +37,8 @@ FROM dev as tests
 
 WORKDIR /app/tests
 COPY tests .
+COPY pyproject.toml /app/.
+
 ENV COVERAGE_FILE=/tmp/.coverage
 ENV PYTHONPATH=/app/src
 ENV DJANGO_SETTINGS_MODULE=main.settings
