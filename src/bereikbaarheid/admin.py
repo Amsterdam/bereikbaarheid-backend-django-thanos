@@ -25,10 +25,11 @@ from bereikbaarheid.resources.stremmingen_resource import StremmingenResource
 from bereikbaarheid.resources.utils import GEOJSON, SCSV
 from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenResource
 from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
+from bereikbaarheid.resources.verkeerstellingen_resource import (
+    VerkeersTellingenResource,
+)
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
-
-admin.site.register(VerkeersTellingen)
 
 
 @admin.register(VenstertijdWegen)
@@ -91,6 +92,13 @@ class VerkeersBordenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAd
     # This will help you to disbale add functionality
     def has_add_permission(self, request):
         return False
+
+
+@admin.register(VerkeersTellingen)
+class VerkeersTellingenAdmin(ImportExportMixin, admin.ModelAdmin):
+    list_display = ["volg_nummer", "telpunt_naam", "link_nr", "jaar"]
+    list_filter = ["jaar", "type_verkeer", "meet_methode"]
+    resource_classes = [VerkeersTellingenResource]
 
 
 @admin.register(Verrijking)
