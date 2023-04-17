@@ -1,4 +1,4 @@
-Django
+Django<4.2  # Django 4.2 does not support Postgres 11 anymore
 psycopg2
 marshmallow
 pytz
