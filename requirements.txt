@@ -8,7 +8,7 @@ asgiref==3.6.0
     # via django
 defusedxml==0.7.1
     # via odfpy
-diff-match-patch==20200713
+diff-match-patch==20230430
     # via django-import-export
 django==4.1.8
     # via
@@ -17,7 +17,7 @@ django==4.1.8
     #   django-leaflet
 django-import-export==3.2.0
     # via -r requirements.in
-django-leaflet==0.28.3
+django-leaflet==0.29.0
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
@@ -25,7 +25,7 @@ markuppy==1.14
     # via tablib
 marshmallow==3.19.0
     # via -r requirements.in
-numpy==1.24.2
+numpy==1.24.3
     # via pandas
 odfpy==1.4.1
     # via tablib
@@ -33,7 +33,7 @@ openpyxl==3.1.2
     # via tablib
 packaging==23.1
     # via marshmallow
-pandas==2.0.0
+pandas==2.0.1
     # via -r requirements.in
 psycopg2==2.9.6
     # via -r requirements.in
@@ -47,7 +47,7 @@ pyyaml==6.0
     # via tablib
 six==1.16.0
     # via python-dateutil
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via django
 tablib[html,ods,xls,xlsx,yaml]==3.4.0
     # via django-import-export

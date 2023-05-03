@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements_dev.txt requirements_dev.in
 #
-autoflake==2.1.0
+autoflake==2.1.1
     # via -r requirements_dev.in
 bakery==1.0.0
     # via -r requirements_dev.in
@@ -24,7 +24,7 @@ packaging==23.1
     #   pytest
 pathspec==0.11.1
     # via black
-platformdirs==3.2.0
+platformdirs==3.5.0
     # via black
 pluggy==1.0.0
     # via pytest
