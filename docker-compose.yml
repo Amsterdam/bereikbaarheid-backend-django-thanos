@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   database:
-    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid-db}:${VERSION:-latest}
+    image: docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend:${VERSION:-latest}
     ports:
       - "5409:5432"
     environment:
@@ -19,7 +19,7 @@ services:
     build:
       context: .
       target: app
-    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}:${VERSION:-latest}
+    image: docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend:${VERSION:-latest}
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
@@ -31,7 +31,7 @@ services:
     <<: *app
     build:
       target: dev
-    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}-dev:${VERSION:-latest}
+    image: docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend-dev:${VERSION:-latest}
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
@@ -48,7 +48,7 @@ services:
     <<: *app
     build:
       target: tests
-    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-bereikbaarheid/api}-test:${VERSION:-latest}
+    image: docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend-test:${VERSION:-latest}
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
