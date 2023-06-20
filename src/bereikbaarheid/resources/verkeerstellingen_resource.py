@@ -19,13 +19,6 @@ class VerkeersTellingenResource(ModelResource):
         # mapping of the model.py columnnames
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
-    # def skip_row(self, instance, original, row, import_validation_errors=None):
-    #     # skip ontbrekend id in import file = legeregels in csv
-    #     if not row["volg_nr"]:
-    #         return True
-
-    #     return super().skip_row(instance, original, row, import_validation_errors)
-
     class Meta:
         model = VerkeersTellingen
         skip_unchanged = True

@@ -25,9 +25,7 @@ from bereikbaarheid.resources.stremmingen_resource import StremmingenResource
 from bereikbaarheid.resources.utils import GEOJSON, SCSV
 from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenResource
 from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
-from bereikbaarheid.resources.verkeerstellingen_resource import (
-    VerkeersTellingenResource,
-)
+from bereikbaarheid.resources.verkeerstellingen_resource import VerkeersTellingenResource
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 
@@ -61,7 +59,7 @@ class GebiedenAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
         """Returns available import formats."""
         return [GEOJSON]
 
-    # This will help you to disbale add functionality
+    # disable add functionality
     def has_add_permission(self, request):
         return False
 
@@ -89,7 +87,7 @@ class VerkeersBordenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAd
     resource_classes = [VerkeersBordenResource]
     modifiable = False  # Make the leaflet map read-only
 
-    # This will help you to disbale add functionality
+    # disable add functionality
     def has_add_permission(self, request):
         return False
 
@@ -113,7 +111,7 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
     list_filter = ["binnen_amsterdam", "wegcategorie_actueel"]
     resource_classes = [VerrijkingResource]
 
-    # This will help you to disbale add functionality
+    # disable add functionality
     def has_add_permission(self, request):
         return False
 
