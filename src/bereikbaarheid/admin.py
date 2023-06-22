@@ -15,6 +15,7 @@ from bereikbaarheid.models import (
     Stremmingen,
     VenstertijdWegen,
     VerkeersBorden,
+    VerkeersPalen,
     VerkeersTellingen,
     Verrijking,
     Vma,
@@ -25,9 +26,11 @@ from bereikbaarheid.resources.stremmingen_resource import StremmingenResource
 from bereikbaarheid.resources.utils import GEOJSON, SCSV
 from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenResource
 from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
+from bereikbaarheid.resources.verkeerspalen_resource import VerkeersPalenResource
 from bereikbaarheid.resources.verkeerstellingen_resource import VerkeersTellingenResource
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
+
 
 
 @admin.register(VenstertijdWegen)
@@ -91,6 +94,18 @@ class VerkeersBordenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAd
     def has_add_permission(self, request):
         return False
 
+
+@admin.register(VerkeersPalen)
+class VerkeersPalenAdmin(ImportExportMixin, admin.ModelAdmin):
+    list_display = ["paal_nr", "link_nr", "standplaats"]
+    list_filter = ["type", "toegangssysteem", "dagen", "beheerorganisatie", "verkeersbord", "jaar_aanleg"]
+    resource_classes = [VerkeersPalenResource]
+    modifiable = False  # Make the leaflet map read-only
+    ordering = ["link_nr", "standplaats"]
+
+    # disable add functionality
+    def has_add_permission(self, request):
+        return False
 
 @admin.register(VerkeersTellingen)
 class VerkeersTellingenAdmin(ImportExportMixin, admin.ModelAdmin):
@@ -255,7 +270,7 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
         context.update(self.admin_site.each_context(request))
 
-        context["title"] = _("Import")
+        context["title"] = "Import"
         context["form"] = import_form
         context["opts"] = self.model._meta
         context["media"] = self.media + import_form.media

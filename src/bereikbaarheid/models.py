@@ -48,7 +48,7 @@ class VenstertijdWegen(models.Model):
     """
 
     class Meta:
-        verbose_name = "Venstertijd"
+        verbose_name = "Venstertijdweg"
         verbose_name_plural = "Venstertijdwegen"
 
     id = models.BigAutoField(primary_key=True)
@@ -78,16 +78,9 @@ class VerkeersBorden(models.Model):
     kijkrichting = models.IntegerField()
     link_nr = models.IntegerField(help_text="script_link_nr")
     link_gevalideerd = models.IntegerField()
-    tekst_waarde = models.FloatField(
-        blank=True,
-        null=True,
-    )
+    tekst_waarde = models.FloatField(blank=True, null=True)
     onderbord_tekst = models.CharField(max_length=299, blank=True, null=True)
-    verkeersbesluit = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-    )
+    verkeersbesluit = models.CharField(max_length=50, blank=True, null=True)
     versie = models.DateField()
     rd_x = models.IntegerField()
     rd_y = models.IntegerField()
@@ -138,7 +131,7 @@ class Verrijking(models.Model):
         verbose_name_plural = "Verrijkingen"
 
     p_id = models.BigAutoField(primary_key=True, help_text="Added by opdrachtenteam")
-    link_nr = models.IntegerField()
+    link_nr = models.IntegerField( help_text="linknr")
     binnen_amsterdam = models.BooleanField(blank=True, null=True)
     binnen_polygoon_awb = models.BooleanField(blank=True, null=True)
     milieuzone = models.BooleanField(
@@ -209,3 +202,31 @@ class Vma(models.Model):
     wegtype_ab = models.CharField(max_length=50, blank=True, null=True)
     wegtype_ba = models.CharField(max_length=50, blank=True, null=True)
     geom = MultiLineStringField(srid=28992)
+
+
+class VerkeersPalen(models.Model):
+    """
+    bereikbaarheid.bd_verkeerspalen
+    """
+
+    class Meta:
+        verbose_name = "Verkeerspaal"
+        verbose_name_plural = "Verkeerspalen"
+
+    p_id = models.BigAutoField(primary_key=True, help_text="Added by opdrachtenteam")
+    link_nr = models.IntegerField(help_text="linknr")
+    paal_nr = models.CharField(max_length=255, blank=True, null=True, help_text="paalnummer")
+    verkeersbord = models.CharField(max_length=255, blank=True, null=True)
+    dagen = ArrayField(models.CharField(max_length=10))
+    begin_tijd = models.TimeField()
+    eind_tijd = models.TimeField()
+    geometry = PointField(srid=28992)
+    type = models.CharField(max_length=255, blank=True, null=True)
+    standplaats = models.CharField(max_length=255, blank=True, null=True)
+    jaar_aanleg = models.IntegerField(blank=True, null=True)
+    venstertijden = models.CharField(max_length=255, blank=True, null=True)
+    toegangssysteem = models.CharField(max_length=255, blank=True, null=True)
+    camera = models.CharField(max_length=255, blank=True, null=True)
+    beheerorganisatie = models.CharField(max_length=255, blank=True, null=True)
+    bijzonderheden = models.CharField(max_length=500, blank=True, null=True)
+
