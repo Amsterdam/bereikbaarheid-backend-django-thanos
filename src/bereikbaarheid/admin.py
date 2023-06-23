@@ -91,13 +91,10 @@ class VerkeersBordenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAd
     resource_classes = [VerkeersBordenResource]
     modifiable = False  # Make the leaflet map read-only
 
-    # disable add functionality
-    def has_add_permission(self, request):
-        return False
 
 
 @admin.register(VerkeersPalen)
-class VerkeersPalenAdmin(ImportExportMixin, admin.ModelAdmin):
+class VerkeersPalenAdmin(ImportExportMixin,  LeafletGeoAdminMixin, admin.ModelAdmin):
     list_display = ["paal_nr", "link_nr", "standplaats"]
     list_filter = ["type", "toegangssysteem", "dagen", "beheerorganisatie", "verkeersbord", "jaar_aanleg"]
     resource_classes = [VerkeersPalenResource]

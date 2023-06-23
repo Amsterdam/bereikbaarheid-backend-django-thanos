@@ -86,7 +86,7 @@ class VerkeersBorden(models.Model):
     rd_y = models.IntegerField()
     link_validated_2 = models.IntegerField()
     panorama = models.CharField(max_length=500, blank=True, null=True)
-    geometry = PointField(srid=28992)
+    geometry = PointField(srid=28992, blank=True)
 
     def save(self, *args, **kwargs):
         self.geometry = f"POINT({self.rd_x} {self.rd_y})"
