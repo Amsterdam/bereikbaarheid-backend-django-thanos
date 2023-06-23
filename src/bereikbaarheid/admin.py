@@ -225,8 +225,6 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
                         continue
                     data["features"].append(json.loads(s_line))
 
-                print(type(data))
-
                 return data
 
             # This setting means we are going to skip the import confirmation step.
