@@ -43,8 +43,11 @@ clean:                              ## Clean docker stuff
 test: lint                               ## Execute tests
 	$(dc) run --rm test pytest /app/tests $(ARGS)
 
+# the name option is explicitly set, so the back- and frontend can communicate
+# with eachother while on the same docker network. The frontend docker-compose
+# file contains a reference to the set name
 dev: migrate						## Run the development app (and run extra migrations first)
-	$(run) --service-ports dev
+	$(run) --name bereikbaarheid-backend-django-dev --service-ports dev
 
 loadtest: migrate
 	$(manage) make_partitions $(ARGS)
