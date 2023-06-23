@@ -1,10 +1,6 @@
-from datetime import datetime
-
-from django.contrib.gis.geos import GEOSGeometry
 from import_export.resources import ModelResource
 
 from bereikbaarheid.models import VerkeersPalen
-from bereikbaarheid.resources.utils import refresh_materialized
 
 
 class VerkeersPalenResource(ModelResource):

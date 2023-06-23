@@ -27,10 +27,11 @@ from bereikbaarheid.resources.utils import GEOJSON, SCSV
 from bereikbaarheid.resources.venstertijdwegen_resource import VenstertijdWegenResource
 from bereikbaarheid.resources.verkeersborden_resource import VerkeersBordenResource
 from bereikbaarheid.resources.verkeerspalen_resource import VerkeersPalenResource
-from bereikbaarheid.resources.verkeerstellingen_resource import VerkeersTellingenResource
+from bereikbaarheid.resources.verkeerstellingen_resource import (
+    VerkeersTellingenResource,
+)
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
-
 
 
 @admin.register(VenstertijdWegen)
@@ -106,6 +107,7 @@ class VerkeersPalenAdmin(ImportExportMixin, admin.ModelAdmin):
     # disable add functionality
     def has_add_permission(self, request):
         return False
+
 
 @admin.register(VerkeersTellingen)
 class VerkeersTellingenAdmin(ImportExportMixin, admin.ModelAdmin):
