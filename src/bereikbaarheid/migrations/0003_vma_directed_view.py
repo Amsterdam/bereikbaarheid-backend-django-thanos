@@ -107,7 +107,7 @@ class Migration(migrations.Migration):
                     WHEN vb.rvv_modelnummer::text = 'C21'::text OR vb.rvv_modelnummer::text = 'C21_ZB'::text THEN vb.tekst_waarde
                     ELSE NULL::double precision
                 END) AS c21
-           FROM bereikbaarheid_verkeersborden vb
+           FROM bereikbaarheid_verkeersbord vb
           WHERE vb.link_gevalideerd <> 0 AND vb.geldigheid::text = 'verbod'::text AND vb.verkeersbesluit::text <> 'stcrt-2021-24726'::text
           GROUP BY vb.link_gevalideerd) borden17_21 ON netwerk.link_nr = borden17_21.link_nr
      LEFT JOIN ( SELECT bereikbaarheid_lastbeperking.link_nr,
@@ -116,19 +116,19 @@ class Migration(migrations.Migration):
           GROUP BY bereikbaarheid_lastbeperking.link_nr) l ON abs(netwerk.link_nr) = l.link_nr
      LEFT JOIN ( SELECT DISTINCT vb.link_gevalideerd,
             1 AS c07
-           FROM bereikbaarheid_verkeersborden vb
+           FROM bereikbaarheid_verkeersbord vb
           WHERE vb.rvv_modelnummer::text = 'C07'::text AND vb.geldigheid::text = 'verbod'::text OR vb.rvv_modelnummer::text = 'C07ZB'::text AND vb.geldigheid::text = 'verbod'::text OR vb.rvv_modelnummer::text = 'C07B'::text AND vb.geldigheid::text = 'verbod'::text) bordc07 ON netwerk.link_nr = bordc07.link_gevalideerd
      LEFT JOIN ( SELECT DISTINCT vb.link_gevalideerd,
             1 AS c01
-           FROM bereikbaarheid_verkeersborden vb
+           FROM bereikbaarheid_verkeersbord vb
           WHERE vb.rvv_modelnummer::text = 'C01'::text AND vb.geldigheid::text = 'verbod'::text) bordc01 ON netwerk.link_nr = bordc01.link_gevalideerd
      LEFT JOIN ( SELECT DISTINCT vb.link_gevalideerd,
             1 AS c07a
-           FROM bereikbaarheid_verkeersborden vb
+           FROM bereikbaarheid_verkeersbord vb
           WHERE vb.rvv_modelnummer::text = 'C07A'::text AND vb.geldigheid::text = 'verbod'::text OR vb.rvv_modelnummer::text = 'C07B'::text AND vb.geldigheid::text = 'verbod'::text) bordc07a ON netwerk.link_nr = bordc07a.link_gevalideerd
      LEFT JOIN ( SELECT DISTINCT vb.link_gevalideerd,
             1 AS c10
-           FROM bereikbaarheid_verkeersborden vb
+           FROM bereikbaarheid_verkeersbord vb
           WHERE vb.rvv_modelnummer::text = 'C10'::text AND vb.geldigheid::text = 'verbod'::text) bordc10 ON netwerk.link_nr = bordc10.link_gevalideerd;
                 """
         )

@@ -1,9 +1,9 @@
 from import_export.resources import ModelResource
 
-from bereikbaarheid.models import VerkeersPalen
+from bereikbaarheid.models import VerkeersPaal
 
 
-class VerkeersPalenResource(ModelResource):
+class VerkeersPaalResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
         col_mapping = {
             "linknr": "link_nr",
@@ -20,9 +20,9 @@ class VerkeersPalenResource(ModelResource):
             row["paal_nr"] = ""
 
     class Meta:
-        model = VerkeersPalen
+        model = VerkeersPaal
         skip_unchanged = True
         report_skipped = False
-        exclude = ("p_id",)
+        exclude = ("id",)
         import_id_fields = ("geometry",)
         import_id_fields = ("link_nr", "dagen", "begin_tijd", "eind_tijd", "geometry")

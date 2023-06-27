@@ -1,9 +1,9 @@
 from import_export.resources import ModelResource
 
-from bereikbaarheid.models import VerkeersTellingen
+from bereikbaarheid.models import VerkeersTelling
 
 
-class VerkeersTellingenResource(ModelResource):
+class VerkeersTellingResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
         col_mapping = {
             "volgnummer": "volg_nummer",
@@ -20,8 +20,8 @@ class VerkeersTellingenResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
     class Meta:
-        model = VerkeersTellingen
+        model = VerkeersTelling
         skip_unchanged = True
         report_skipped = True
-        exclude = ("xid",)
+        exclude = ("id",)
         import_id_fields = ("volg_nummer",)

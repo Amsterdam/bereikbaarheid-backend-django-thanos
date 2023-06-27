@@ -107,15 +107,22 @@ def refresh_materialized(db_table: str):
 # -------------------------------------------
 
 
-def convert_to_date(date: str = None, format: str = "%d/%m/%y %H:%M"):
+def convert_to_date(date: str = None, format: str = "%d/%m/%y %H:%M") -> datetime:
     """Convert string format to datetime"""
+
 
     try:
         _date = datetime.datetime.strptime(date, format)
+        return _date
     except ValueError:
-        print(f"verkeerd datumformat voor {date}, gewenst format is {format}")
+        try:
+            format = "%Y-%m-%d %H:%M:%S.%f"
+            _date = datetime.datetime.strptime(date, format)
+            return _date
+        except ValueError:
+            print(f"verkeerd datumformat voor {date}, gewenst format is {format}")
 
-    return _date
+    return ValueError
 
 
 def convert_to_time(in_time: str = None):
@@ -131,11 +138,11 @@ def convert_to_time(in_time: str = None):
             tlist.append(0)  # aanvullen seconden
 
         _time = datetime.time(*map(int, tlist))
-
+        return _time
     except ValueError:
         print(f"verkeerd datumformat voor {in_time}, gewenst format is H:M:S of H:M")
 
-    return _time
+    return ValueError
 
 
 def convert_str(value: str, to: str = "float"):
@@ -144,3 +151,5 @@ def convert_str(value: str, to: str = "float"):
             value = float(value)
         finally:
             return value
+    else:
+        return value

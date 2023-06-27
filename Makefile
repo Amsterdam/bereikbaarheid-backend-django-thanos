@@ -75,8 +75,9 @@ migrations:
 	$(manage) makemigrations $(ARGS)
 
 trivy: 	    						## Detect image vulnerabilities
-	$(dc) build app
-	trivy image --ignore-unfixed 127.0.0.1:5001/bereikbaarheid/api
+	$(dc) build --no-cache app
+	trivy image --ignore-unfixed docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend
+
 
 kustomize:
 	kustomize build manifests/overlays/local | kubectl apply -f -

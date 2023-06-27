@@ -64,11 +64,11 @@ raw_query = """
             on netwerk.source = routing.target -- Is the source of the link reachable? # noqa: E501
     
             -- BLOCK 3; FROM,
-            -- Joins with stremmingen to find all direct unreachable links
+            -- Joins with stremming to find all direct unreachable links
             left join (
                 select link_nr, start_date, end_date, url,
                     kenmerk, werkzaamheden, opmerking
-                from bereikbaarheid_stremmingen
+                from bereikbaarheid_stremming
             ) as strem
             on abs(netwerk.id) = strem.link_nr
     
@@ -137,7 +137,7 @@ def prepare_pgr_dijkstra_cost_query(time_from, time_to):
             and
             abs(id) not in (
                 select t1.link_nr
-                from bereikbaarheid_stremmingen as t1
+                from bereikbaarheid_stremming as t1
                 where start_date <= %(time_to)s
                 and end_date >= %(time_from)s
             )
