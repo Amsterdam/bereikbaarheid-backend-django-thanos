@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: bereikbaarheid
       POSTGRES_PASSWORD: insecure
     build:
-      dockerfile: Dockerfile_db
+      dockerfile: Dockerfile_pgrouting
     image: ghcr.io/amsterdam/bereikbaarheid-db:latest
     networks:
       - backend
