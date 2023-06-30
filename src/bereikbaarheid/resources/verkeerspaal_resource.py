@@ -22,7 +22,7 @@ class VerkeersPaalResource(ModelResource):
     class Meta:
         model = VerkeersPaal
         skip_unchanged = True
-        report_skipped = False
+        report_skipped = True
         exclude = ("id",)
         import_id_fields = ("geometry",)
         import_id_fields = ("link_nr", "dagen", "begin_tijd", "eind_tijd", "geometry")
