@@ -1,6 +1,4 @@
-from datetime import time
-
-from marshmallow import Schema, fields, validate, ValidationError, validates_schema
+from marshmallow import Schema, ValidationError, fields, validate, validates_schema
 
 from bereikbaarheid.validation import bbox_adam, days_of_the_week_abbreviated
 
@@ -27,16 +25,16 @@ class BollardsSerializer(Schema):
     )
 
     time_from = fields.Time(
-        format="%H:%M", load_default=time.min, required=False, data_key="timeFrom"
+        format="%H:%M", required=False, data_key="timeFrom" #load_default=time.min, 
     )
 
     time_to = fields.Time(
-        format="%H:%M", load_default=time.max, required=False, data_key="timeTo"
+        format="%H:%M", required=False, data_key="timeTo"  #load_default=time.max,
     )
 
     @validates_schema
     def validate_dates(self, data, **kwargs):
-        if any(x in data for x in ["time_to", "time_from"]):
+        if not all(x in data for x in ["time_to", "time_from"]):
             return
 
         if data["time_to"] < data["time_from"]:
@@ -44,7 +42,7 @@ class BollardsSerializer(Schema):
 
     @validates_schema
     def validate_field_dependencies(self, data, **kwargs):
-        dependent_fields = ["dayOfTheWeek", "timeFrom", "timeTo"]
+        dependent_fields = ["day_of_the_week", "time_from", "time_to"]
 
         if any(x in data for x in dependent_fields):
             missing_fields = [f for f in dependent_fields if f not in data]

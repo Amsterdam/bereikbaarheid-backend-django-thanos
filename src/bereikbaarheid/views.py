@@ -3,7 +3,6 @@ from django.views import View
 
 from bereikbaarheid.bollards import get_bollards
 from bereikbaarheid.bollards.serializer import BollardsSerializer
-
 from bereikbaarheid.elements import get_elements
 from bereikbaarheid.isochrones import get_isochrones
 from bereikbaarheid.isochrones.serializer import IsochronesSerializer
