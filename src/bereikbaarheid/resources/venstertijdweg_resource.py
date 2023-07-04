@@ -1,10 +1,10 @@
 from import_export.resources import ModelResource
 
-from bereikbaarheid.models import VenstertijdWegen
+from bereikbaarheid.models import VenstertijdWeg
 from bereikbaarheid.resources.utils import convert_to_time
 
 
-class VenstertijdWegenResource(ModelResource):
+class VenstertijdWegResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
         col_mapping = {
             "linknr": "link_nr",
@@ -27,7 +27,7 @@ class VenstertijdWegenResource(ModelResource):
         return super().skip_row(instance, original, row, import_validation_errors)
 
     class Meta:
-        model = VenstertijdWegen
+        model = VenstertijdWeg
         skip_unchanged = True
         report_skipped = True
         exclude = ("id",)
