@@ -26,21 +26,25 @@ QUERY_RESULT =[
         },
     )],
    [],
+   None,
 ]
-
 
 
 class TestBollards:
     @pytest.mark.parametrize(
         "query_results", QUERY_RESULT)
-    def test__transform_results(self, query_results):
+    def test_transform_results(self, query_results):
         result = _transform_results(query_results)
 
         expected_results = [i[0] for i in query_results] 
         assert result == expected_results
 
+    def test_transform_results(self):
+        result = _transform_results(None)
 
-    #@TODO: read https://docs.python.org/3/library/unittest.mock.html -> stomme test!
+        assert result == []
+
+
     @pytest.mark.django_db
     @patch( "bereikbaarheid.bollards.bollards.django_query_db",
         MagicMock(return_value=QUERY_RESULT[0]),)
