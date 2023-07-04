@@ -47,11 +47,11 @@ class TestBollardsSerializer():
     ]
 
     @pytest.mark.parametrize("test_input", params_valid)
-    def test_time_to_GTE_time_from_validate(self, test_input):
+    def test_serializer_validate(self, test_input):
         BollardsSerializer().load( test_input)
 
     @pytest.mark.parametrize("test_input", params_invalid)
-    def test_time_to_GTE_time_from_validate_ERROR(self, test_input):
+    def test_serilizer_validate_ERROR(self, test_input):
         with pytest.raises(ValidationError):
             BollardsSerializer().load(test_input)
          
