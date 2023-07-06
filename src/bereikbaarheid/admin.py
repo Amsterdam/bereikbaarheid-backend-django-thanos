@@ -32,6 +32,38 @@ from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 
 
+from .validation import days_of_the_week_abbreviated
+
+class ArrayDagenListFilter(admin.SimpleListFilter):
+    """This is a list filter based on the values
+    from a model's `keywords` ArrayField. """
+    title = "dagen"
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = "dagen"
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. 
+        (lookup_value, human-readable value). These
+        appear in the admin's right sidebar
+        """
+        dagen = [(d, d) for d in days_of_the_week_abbreviated]
+        return dagen
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        lookup_value = self.value()  # The clicked keyword. It can be None!
+        if lookup_value:
+            # the __contains lookup expects a list, so...
+            queryset = queryset.filter(dagen__contains=[lookup_value])
+        return queryset
+
+
 @admin.register(VenstertijdWeg)
 class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = [
@@ -42,7 +74,7 @@ class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
         "begin_tijd",
         "eind_tijd",
     ]
-    list_filter = ["verkeersbord", "dagen", "begin_tijd", "eind_tijd"]
+    list_filter = ["verkeersbord", ArrayDagenListFilter, "begin_tijd", "eind_tijd"]
     resource_classes = [VenstertijdWegResource]
 
     def get_import_formats(self):
@@ -93,8 +125,8 @@ class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmi
 
 @admin.register(VerkeersPaal)
 class VerkeersPalenAdmin(ImportExportMixin,  LeafletGeoAdminMixin, admin.ModelAdmin):
-    list_display = ["paal_nr", "link_nr", "standplaats"]
-    list_filter = ["type", "toegangssysteem", "dagen", "beheerorganisatie", "verkeersbord", "jaar_aanleg"]
+    list_display = ["paal_nr", "link_nr", "standplaats", "dagen"]
+    list_filter = ["type", "toegangssysteem", ArrayDagenListFilter, "beheerorganisatie", "verkeersbord", "jaar_aanleg"]
     resource_classes = [VerkeersPaalResource]
     modifiable = False  # Make the leaflet map read-only
     ordering = ["link_nr", "standplaats"]
@@ -279,3 +311,5 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
         request.current_app = self.admin_site.name
         return TemplateResponse(request, [self.import_template_name], context)
+
+

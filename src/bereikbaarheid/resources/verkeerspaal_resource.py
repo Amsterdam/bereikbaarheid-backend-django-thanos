@@ -1,7 +1,7 @@
 from import_export.resources import ModelResource
 
 from bereikbaarheid.models import VerkeersPaal
-
+from bereikbaarheid.resources.utils import remove_chars_from_value
 
 class VerkeersPaalResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
@@ -14,6 +14,11 @@ class VerkeersPaalResource(ModelResource):
         dataset.headers = [x.strip().lower() for x in dataset.headers]
         # mapping of the model.py columnnames
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
+
+        #remove [] or {} of array by import
+        print(dataset['dagen'][:10])
+        dataset.append_col([ remove_chars_from_value(x,"[]{}") for x in dataset['dagen']], header = "dagen" )
+        print(dataset['dagen'][:10])
 
     def before_import_row(self, row, row_number=None, **kwargs):
         if row["paal_nr"] == "None":
