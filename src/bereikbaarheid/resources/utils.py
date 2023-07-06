@@ -153,7 +153,7 @@ def convert_str(value: str, to: str = "float"):
     
 
 def remove_chars_from_value(value: str, chars: list) -> str:
-
+    """Removes all characters in list chars from value"""
     v = value
     for c in chars:
         v = v.replace(c, '')

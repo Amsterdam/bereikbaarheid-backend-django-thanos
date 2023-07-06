@@ -3,6 +3,7 @@ from import_export.resources import ModelResource
 from bereikbaarheid.models import VerkeersPaal
 from bereikbaarheid.resources.utils import remove_chars_from_value
 
+
 class VerkeersPaalResource(ModelResource):
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
         col_mapping = {

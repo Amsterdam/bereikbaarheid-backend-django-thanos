@@ -31,8 +31,8 @@ from bereikbaarheid.resources.verkeerstelling_resource import VerkeersTellingRes
 from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 
-
 from .validation import days_of_the_week_abbreviated
+
 
 class ArrayDagenListFilter(admin.SimpleListFilter):
     """This is a list filter based on the values

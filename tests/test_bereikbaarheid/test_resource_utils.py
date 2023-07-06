@@ -2,7 +2,12 @@ import datetime
 
 import pytest
 
-from bereikbaarheid.resources.utils import convert_str, convert_to_date, convert_to_time
+from bereikbaarheid.resources.utils import (
+    convert_str,
+    convert_to_date,
+    convert_to_time,
+    remove_chars_from_value,
+)
 
 
 class TestUtils:
@@ -52,3 +57,9 @@ class TestUtils:
 
         assert convert_str(test_input, test_to) == expected
 
+    @pytest.mark.parametrize("test_input, charlist, expected", 
+                             [("test!help", "!5", "testhelp"), 
+                              ("test!help", "t!hl", "esep"),])
+    def test_remove_chars_from_value(self, test_input, charlist, expected):
+        """Return: test_input without charlist-characters"""
+        assert remove_chars_from_value(test_input, charlist) == expected
