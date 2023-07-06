@@ -17,9 +17,7 @@ class VerkeersPaalResource(ModelResource):
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
         #remove [] or {} of array by import
-        print(dataset['dagen'][:10])
         dataset.append_col([ remove_chars_from_value(x,"[]{}") for x in dataset['dagen']], header = "dagen" )
-        print(dataset['dagen'][:10])
 
     def before_import_row(self, row, row_number=None, **kwargs):
         if row["paal_nr"] == "None":
