@@ -4,20 +4,20 @@ from bereikbaarheid.utils import django_query_db
 
 raw_query = """
     select 
-    ST_Transform(t1.geom, 4326)::json as geometry,
-    t1.link_nr as road_element_id,
-    t1.name as road_element_street_name,
-    t2."bereikbaar_status_code" as road_element_accessibility_code,
-    case
-        when t2."bereikbaar_status_code" = 222 then '[]'
-        else json_agg(json_build_object(
-            'activity', t2."werkzaamheden",
-            'reference', t2."kenmerk",
-            'url', t2."url",
-            'start_date', t2.start_date,
-            'end_date', t2.end_date
-        ) order by t2.end_date asc)
-        end as obstructions
+        ST_Transform(t1.geom, 4326)::json as geometry,
+        t1.link_nr as road_element_id,
+        t1.name as road_element_street_name,
+        t2."bereikbaar_status_code" as road_element_accessibility_code,
+        case
+            when t2."bereikbaar_status_code" = 222 then '[]'
+            else json_agg(json_build_object(
+                'activity', t2."werkzaamheden",
+                'reference', t2."kenmerk",
+                'url', t2."url",
+                'start_date', t2.start_date,
+                'end_date', t2.end_date
+            ) order by t2.end_date asc)
+            end as obstructions
     from bereikbaarheid_out_vma_undirected t1
     right join (
         select v.id,
@@ -193,3 +193,5 @@ def get_obstructions(data: dict):
         },
     )
     return _transform_results(results)
+
+

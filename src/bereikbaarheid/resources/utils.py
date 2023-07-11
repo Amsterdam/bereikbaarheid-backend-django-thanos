@@ -142,6 +142,7 @@ def convert_to_time(in_time: str = None):
 
 
 def convert_str(value: str, to: str = "float"):
+    """Convert string-value to format 'to' """
     if "float" == to:
         try:
             value = float(value)
@@ -149,3 +150,12 @@ def convert_str(value: str, to: str = "float"):
             return value
     else:
         return value
+    
+
+def remove_chars_from_value(value: str, chars: list) -> str:
+    """Removes all characters in list chars from value"""
+    v = value
+    for c in chars:
+        v = v.replace(c, '')
+    return v
+
