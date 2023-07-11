@@ -84,7 +84,7 @@ DATABASE_NAME = os.getenv("DATABASE_NAME", "bereikbaarheid")
 DATABASE_USER = os.getenv("DATABASE_USER", "bereikbaarheid")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD", "insecure")
 DATABASE_HOST = os.getenv("DATABASE_HOST", "database")
-DATABASE_PORT = os.getenv("DATABASE_POST", 5432)
+DATABASE_PORT = os.getenv("DATABASE_PORT", 5432)
 
 
 DATABASES = {
