@@ -25,11 +25,11 @@ class BollardsSerializer(Schema):
     )
 
     time_from = fields.Time(
-        format="%H:%M", required=False, data_key="timeFrom" #load_default=time.min, 
+        format="%H:%M", required=False, data_key="timeFrom"
     )
 
     time_to = fields.Time(
-        format="%H:%M", required=False, data_key="timeTo"  #load_default=time.max,
+        format="%H:%M", required=False, data_key="timeTo"
     )
 
     @validates_schema

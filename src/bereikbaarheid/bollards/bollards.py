@@ -2,44 +2,42 @@ from django.db import connection
 
 from bereikbaarheid.utils import django_query_db
 
-"""
-    The query calculates a route to the provided lat/lon and returns
-    the encountered bollards. If no bollards are found, nothing is returned.
+    # The query calculates a route to the provided lat/lon and returns
+    # the encountered bollards. If no bollards are found, nothing is returned.
 
-    It works as follows:
-    - Based on the provided day of the week, start and end time,
-        the network cost is recalculated:
-        - cost is multiplied by 10000 if:
-        - road section is linked to a bollard
-        - AND the given day, start and end time do not match with the times
-            when the bollard is retracted / removed
-        - cost is multiplied by 10000 * 10000 if:
-        - road section is linked to a bollard
-        - AND the given day, start and end time do not match with the times
-            when the bollard is retracted / removed
-        - AND road section is not accessible for vehicles
-        - cost is multiplied by 2 * 10000 * 10000 if:
-        - road section is not accessible for vehicles
-        - for all other cases, the normal cost calculation (length/speed) applies
-    - By recalculating the cost - as described above - the routing algorithm
-        will try to find a route without bollards. It will only use routes
-        with bollard(s) if all other options are exhausted.
-    - The provided lat/lon is used to search for the closest target node
-    - The closest target node is used for calculating routes
+    # It works as follows:
+    # - Based on the provided day of the week, start and end time,
+    #     the network cost is recalculated:
+    #     - cost is multiplied by 10000 if:
+    #            - road section is linked to a bollard
+    #            - AND the given day, start and end time do not match with the times
+    #               when the bollard is retracted / removed
+    #     - cost is multiplied by 10000 * 10000 if:
+    #            - road section is linked to a bollard
+    #            - AND the given day, start and end time do not match with the times
+    #                when the bollard is retracted / removed
+    #            - AND road section is not accessible for vehicles
+    #     - cost is multiplied by 2 * 10000 * 10000 if:
+    #            - road section is not accessible for vehicles
+    #            - for all other cases, the normal cost calculation (length/speed) applies
+    # - By recalculating the cost - as described above - the routing algorithm
+    #     will try to find a route without bollards. It will only use routes
+    #     with bollard(s) if all other options are exhausted.
+    # - The provided lat/lon is used to search for the closest target node
+    # - The closest target node is used for calculating routes
 
-    :param day_of_the_week: e.g "di"
-    :type day_of_the_week: string or None
-    :param time_from: e.g "08:00:00"
-    :type time_from: string or None
-    :param time_to: e.g "16:00:00"
-    :type time_to: string or None
-    :param lat: the latitude of the location
-    :type lat: float
-    :param lon: the longitude of the location
-    :type lon: float
-    :return: object - bollards encountered while routing to a lat/lon
-                on a given day, start and end time.
-"""
+    # :param day_of_the_week: e.g "di"
+    # :type day_of_the_week: string or None
+    # :param time_from: e.g "08:00:00"
+    # :type time_from: string or None
+    # :param time_to: e.g "16:00:00"
+    # :type time_to: string or None
+    # :param lat: the latitude of the location
+    # :type lat: float
+    # :param lon: the longitude of the location
+    # :type lon: float
+    # :return: object - bollards encountered while routing to a lat/lon
+    #             on a given day, start and end time.
 
 raw_query = """
         with bollards as (

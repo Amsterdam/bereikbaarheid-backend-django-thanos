@@ -40,9 +40,7 @@ class TestBollards:
         assert result == expected_results
 
     def test_transform_results(self):
-        result = _transform_results(None)
-
-        assert result == []
+        assert _transform_results(None) == []
 
 
     @pytest.mark.django_db

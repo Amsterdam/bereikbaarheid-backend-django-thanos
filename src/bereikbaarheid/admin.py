@@ -48,8 +48,7 @@ class ArrayDagenListFilter(admin.SimpleListFilter):
         (lookup_value, human-readable value). These
         appear in the admin's right sidebar
         """
-        dagen = [(d, d) for d in days_of_the_week_abbreviated]
-        return dagen
+        return [(d, d) for d in days_of_the_week_abbreviated]
 
     def queryset(self, request, queryset):
         """
