@@ -19,7 +19,7 @@ services:
     build:
       context: .
       target: app
-    image: docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend:${VERSION:-latest}
+    image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend:${VERSION:-latest}
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
