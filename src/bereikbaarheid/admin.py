@@ -36,7 +36,8 @@ from .validation import days_of_the_week_abbreviated
 
 class ArrayDagenListFilter(admin.SimpleListFilter):
     """This is a list filter based on the values
-    from a model's `keywords` ArrayField. """
+    from a model's `keywords` ArrayField."""
+
     title = "dagen"
 
     # Parameter for the filter that will be used in the URL query.
@@ -44,7 +45,7 @@ class ArrayDagenListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         """
-        Returns a list of tuples. 
+        Returns a list of tuples.
         (lookup_value, human-readable value). These
         appear in the admin's right sidebar
         """
@@ -121,11 +122,17 @@ class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmi
     modifiable = False  # Make the leaflet map read-only
 
 
-
 @admin.register(VerkeersPaal)
-class VerkeersPalenAdmin(ImportExportMixin,  LeafletGeoAdminMixin, admin.ModelAdmin):
+class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
     list_display = ["paal_nr", "link_nr", "standplaats", "dagen"]
-    list_filter = ["type", "toegangssysteem", ArrayDagenListFilter, "beheerorganisatie", "verkeersbord", "jaar_aanleg"]
+    list_filter = [
+        "type",
+        "toegangssysteem",
+        ArrayDagenListFilter,
+        "beheerorganisatie",
+        "verkeersbord",
+        "jaar_aanleg",
+    ]
     resource_classes = [VerkeersPaalResource]
     modifiable = False  # Make the leaflet map read-only
     ordering = ["link_nr", "standplaats"]
@@ -310,5 +317,3 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
         request.current_app = self.admin_site.name
         return TemplateResponse(request, [self.import_template_name], context)
-
-
