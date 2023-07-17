@@ -50,7 +50,7 @@ class VenstertijdWeg(models.Model):
         verbose_name = "Venstertijdweg"
         verbose_name_plural = "Venstertijdwegen"
 
-    link_nr = models.IntegerField(help_text="linknr") 
+    link_nr = models.IntegerField(help_text="linknr")
     name = models.CharField(max_length=255, blank=True, null=True)
     e_type = models.CharField(max_length=255, blank=True, null=True)
     verkeersbord = models.CharField(max_length=255, blank=True, null=True)
@@ -74,7 +74,7 @@ class VerkeersBord(models.Model):
     rvv_modelnummer = models.CharField(max_length=25)
     tekst = models.CharField(max_length=25, blank=True, null=True)
     kijkrichting = models.IntegerField()
-    link_nr = models.IntegerField(help_text="script_link_nr") 
+    link_nr = models.IntegerField(help_text="script_link_nr")
     link_gevalideerd = models.IntegerField()
     tekst_waarde = models.FloatField(blank=True, null=True)
     onderbord_tekst = models.CharField(max_length=299, blank=True, null=True)
@@ -101,10 +101,10 @@ class VerkeersTelling(models.Model):
         verbose_name = "Verkeerstelling"
         verbose_name_plural = "Verkeerstellingen"
 
-    volg_nummer = models.IntegerField(help_text="Volgnummer") 
-    lat = models.FloatField(help_text="Latitude") 
-    lon = models.FloatField(help_text="Longitude") 
-    link_nr = models.IntegerField(blank=True, null=True, help_text="vma_link_nr") 
+    volg_nummer = models.IntegerField(help_text="Volgnummer")
+    lat = models.FloatField(help_text="Latitude")
+    lon = models.FloatField(help_text="Longitude")
+    link_nr = models.IntegerField(blank=True, null=True, help_text="vma_link_nr")
     url = models.CharField(max_length=255)
     telpunt_naam = models.CharField(max_length=255, help_text="Telpuntnaam")
     tussen = models.CharField(max_length=255, help_text="Tussen")
@@ -129,7 +129,7 @@ class Verrijking(models.Model):
         verbose_name = "Verrijking"
         verbose_name_plural = "Verrijkingen"
 
-    link_nr = models.IntegerField( help_text="linknr")
+    link_nr = models.IntegerField(help_text="linknr")
     binnen_amsterdam = models.BooleanField(blank=True, null=True)
     binnen_polygoon_awb = models.BooleanField(blank=True, null=True)
     milieuzone = models.BooleanField(
@@ -212,7 +212,9 @@ class VerkeersPaal(models.Model):
         verbose_name_plural = "Verkeerspalen"
 
     link_nr = models.IntegerField(help_text="linknr")
-    paal_nr = models.CharField(max_length=255, blank=True, null=True, help_text="paalnummer")
+    paal_nr = models.CharField(
+        max_length=255, blank=True, null=True, help_text="paalnummer"
+    )
     verkeersbord = models.CharField(max_length=255, blank=True, null=True)
     dagen = ArrayField(models.CharField(max_length=10))
     begin_tijd = models.TimeField()
@@ -226,4 +228,3 @@ class VerkeersPaal(models.Model):
     camera = models.CharField(max_length=255, blank=True, null=True)
     beheerorganisatie = models.CharField(max_length=255, blank=True, null=True)
     bijzonderheden = models.CharField(max_length=500, blank=True, null=True)
-

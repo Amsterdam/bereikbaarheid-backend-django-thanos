@@ -92,7 +92,7 @@ DATABASES = {
         "CONN_MAX_AGE": 20,
         "PORT": os.getenv("DATABASE_PORT", 5432),
     },
-} 
+}
 
 
 # Password validation

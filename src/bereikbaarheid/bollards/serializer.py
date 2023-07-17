@@ -5,7 +5,7 @@ from bereikbaarheid.validation import bbox_adam, days_of_the_week_abbreviated
 
 class BollardsSerializer(Schema):
     day_of_the_week = fields.String(
-        required=False, 
+        required=False,
         data_key="dayOfTheWeek",
         validate=validate.OneOf(days_of_the_week_abbreviated),
     )
@@ -24,13 +24,9 @@ class BollardsSerializer(Schema):
         ],
     )
 
-    time_from = fields.Time(
-        format="%H:%M", required=False, data_key="timeFrom"
-    )
+    time_from = fields.Time(format="%H:%M", required=False, data_key="timeFrom")
 
-    time_to = fields.Time(
-        format="%H:%M", required=False, data_key="timeTo"
-    )
+    time_to = fields.Time(format="%H:%M", required=False, data_key="timeTo")
 
     @validates_schema
     def validate_dates(self, data, **kwargs):
@@ -48,6 +44,4 @@ class BollardsSerializer(Schema):
             missing_fields = [f for f in dependent_fields if f not in data]
 
             if missing_fields:
-                raise ValidationError(
-                    f"Missing fields: {', '.join(missing_fields)}"
-                )
+                raise ValidationError(f"Missing fields: {', '.join(missing_fields)}")

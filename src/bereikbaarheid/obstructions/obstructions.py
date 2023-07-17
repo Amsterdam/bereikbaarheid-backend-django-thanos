@@ -193,5 +193,3 @@ def get_obstructions(data: dict):
         },
     )
     return _transform_results(results)
-
-

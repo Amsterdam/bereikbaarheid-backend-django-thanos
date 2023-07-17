@@ -40,7 +40,7 @@ push_semver:
 clean:                              ## Clean docker stuff
 	$(dc) down -v --remove-orphans
 
-test: lint                               ## Execute tests
+test:                               ## Execute tests
 	$(dc) run --rm test pytest /app/tests $(ARGS)
 
 # the name option is explicitly set, so the back- and frontend can communicate
