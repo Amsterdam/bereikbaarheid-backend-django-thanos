@@ -27,7 +27,7 @@ services:
       - ./deploy:/deploy
     depends_on:
       - database
-    entrypoint: /app/deploy/wait-for-it.sh database:5432 --
+    entrypoint: /deploy/wait-for-it.sh database:5432 --
 
   dev:
     <<: *app
@@ -41,7 +41,7 @@ services:
       - DATABASE_USER=bereikbaarheid
       - DATABASE_PASSWORD=insecure
     command:
-      python manage.py runserver 0.0.0.0:8000
+      python /app/src/manage.py runserver 0.0.0.0:8000
     networks:
       - backend
 
