@@ -1,7 +1,5 @@
 FROM python:3.11-slim-bullseye as app
 
-WORKDIR /app
-
 ENV PYTHONUNBUFFERED 1 \
     PIP_NO_CACHE_DIR=off
 
@@ -15,6 +13,8 @@ RUN apt install -y \
     gcc
 
 COPY deploy deploy
+
+WORKDIR /app
 
 WORKDIR /app/src
 COPY requirements.txt requirements.txt
@@ -31,7 +31,7 @@ COPY requirements_dev.txt requirements_dev.txt
 RUN pip install -r requirements_dev.txt
 
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "/app/src/manage.py", "runserver", "0.0.0.0:8000"]
 
 FROM dev as tests
 
