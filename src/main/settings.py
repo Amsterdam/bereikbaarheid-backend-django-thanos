@@ -28,9 +28,12 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = bool(os.getenv("DEBUG", False))
 
 ALLOWED_HOSTS = ["*"]
-X_FRAME_OPTIONS = "ALLOW-FROM *"
+X_FRAME_OPTIONS = "DENY"
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 # Application definition
 
 
@@ -58,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "main.urls"
+BASE_URL = os.getenv("BASE_URL", "")
 
 TEMPLATES = [
     {
@@ -129,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = os.path.join(BASE_URL, "/static/")
 STATIC_ROOT = "static/"
 
 # Default primary key field type
