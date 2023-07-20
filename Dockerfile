@@ -1,11 +1,13 @@
-FROM python:3.11-slim-bullseye as app
+FROM python:3.10-buster as app
 
 ENV PYTHONUNBUFFERED 1 \
     PIP_NO_CACHE_DIR=off
 
 RUN apt-get update -y\
     && apt upgrade -y \
-    && apt autoremove -y
+    && apt autoremove -y\
+    && pip install --upgrade pip \
+    && pip install uwsgi 
 
 RUN apt install -y \
     gdal-bin \
