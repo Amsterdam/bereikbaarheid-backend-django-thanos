@@ -5,7 +5,7 @@ set -e   # stop on any error
 set -x
 
 echo Collecting static files
-python manage.py collectstatic --no-input
+python /app/src/manage.py collectstatic --no-input
 
 # run uwsgi
-exec uwsgi --ini main/uwsgi.ini
+exec uwsgi --ini /app/src/main/uwsgi.ini

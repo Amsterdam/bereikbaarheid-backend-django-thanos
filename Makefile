@@ -49,6 +49,9 @@ test:                               ## Execute tests
 dev: migrate						## Run the development app (and run extra migrations first)
 	$(run) --name bereikbaarheid-backend-django-dev --service-ports dev
 
+app:
+	$(run) --name bereikbaarheid-backend-django-app --service-ports app
+
 loadtest: migrate
 	$(manage) make_partitions $(ARGS)
 	$(run) locust $(ARGS)
@@ -77,7 +80,6 @@ migrations:
 trivy: 	    						## Detect image vulnerabilities
 	$(dc) build --no-cache app
 	trivy image --ignore-unfixed docker-registry.secure.amsterdam.nl/datapunt/bereikbaarheid-backend
-
 
 kustomize:
 	kustomize build manifests/overlays/local | kubectl apply -f -
