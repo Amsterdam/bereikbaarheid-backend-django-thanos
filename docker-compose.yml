@@ -10,6 +10,8 @@ x-app: &app
     - ./src:/src
     - ./tests:/tests
     - ./deploy:/deploy
+  depends_on:
+    - database    
 
 
 services:
