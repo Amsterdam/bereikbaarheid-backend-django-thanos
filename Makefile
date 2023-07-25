@@ -7,7 +7,7 @@ PYTHON = python3
 
 dc = docker compose
 run = $(dc) run --rm
-manage = $(run) dev python /app/src/manage.py
+manage = $(run) dev python manage.py
 
 help:                               ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -40,17 +40,20 @@ push_semver:
 clean:                              ## Clean docker stuff
 	$(dc) down -v --remove-orphans
 
-test:                               ## Execute tests
-	$(dc) run --rm test pytest /app/tests $(ARGS)
+# test:                               ## Execute tests
+# 	$(dc) run --rm test pytest tests $(ARGS)
+
+app:
+	$(dc) up app
 
 # the name option is explicitly set, so the back- and frontend can communicate
 # with eachother while on the same docker network. The frontend docker-compose
 # file contains a reference to the set name
-dev: migrate						## Run the development app (and run extra migrations first)
+dev: migrate
 	$(run) --name bereikbaarheid-backend-django-dev --service-ports dev
 
-app:
-	$(run) --name bereikbaarheid-backend-django-app --service-ports app
+test: lint
+	$(run) test pytest $(ARGS)
 
 loadtest: migrate
 	$(manage) make_partitions $(ARGS)
@@ -94,5 +97,5 @@ lintfix:                            ## Execute lint fixes
 
 
 lint:                               ## Execute lint checks
-	$(run) test autoflake /app --check --recursive --quiet
-	$(run) test isort --diff --check /app/src/$(APP) /app/tests/$(APP)
+	$(run) test autoflake /src --check --recursive --quiet
+	$(run) test isort --diff --check /src/$(APP) /tests/$(APP)
