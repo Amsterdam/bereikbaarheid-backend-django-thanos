@@ -1,7 +1,20 @@
 version: "3.7"
 
-services:
+x-app: &app
+  build:
+    context: .
+    target: app
+  ports:
+    - "8000:8000"
+  volumes:
+    - ./src:/src
+    - ./tests:/tests
+    - ./deploy:/deploy
+  depends_on:
+    - database    
 
+
+services:
   database:
     ports:
       - "5432"
@@ -15,24 +28,16 @@ services:
     networks:
       - backend
 
-  app: &app
-    build:
-      context: .
-      target: app
-
+  app: 
+    <<: *app    
     image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend-django:${VERSION:-latest}
-    volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
-      - ./deploy:/deploy
-    depends_on:
-      - database
-    entrypoint: /deploy/wait-for-it.sh database:5432 --
+    command: /deploy/docker-run.sh
 
   dev:
     <<: *app
     build:
-      target: dev
+      target: dev 
+    image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend-django:${VERSION:-latest}          
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
@@ -40,13 +45,14 @@ services:
       - DATABASE_NAME=bereikbaarheid
       - DATABASE_USER=bereikbaarheid
       - DATABASE_PASSWORD=insecure
+    entrypoint: /deploy/wait-for-it.sh database:5432 --            
     command:
-      python /app/src/manage.py runserver 0.0.0.0:8000
+      python manage.py runserver 0.0.0.0:8000
     networks:
       - backend
 
   test:
-    <<: *app
+    <<: *app  
     build:
       target: tests
 #    image: ghcr.io/amsterdam/bereikbaarheid:latest  # TODO: Uncomment when Jenkins is no longer used
@@ -57,6 +63,7 @@ services:
       - DATABASE_NAME=bereikbaarheid
       - DATABASE_USER=bereikbaarheid
       - DATABASE_PASSWORD=insecure
+    entrypoint: /deploy/wait-for-it.sh database:5432 --      
     command:
       pytest
     networks:
@@ -65,3 +72,4 @@ services:
 networks:
   backend:
     name: amsterdam-bereikbaarheid
+
