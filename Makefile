@@ -40,9 +40,6 @@ push_semver:
 clean:                              ## Clean docker stuff
 	$(dc) down -v --remove-orphans
 
-# test:                               ## Execute tests
-# 	$(dc) run --rm test pytest tests $(ARGS)
-
 app:
 	$(dc) up app
 
@@ -52,7 +49,7 @@ app:
 dev: migrate
 	$(run) --name bereikbaarheid-backend-django-dev --service-ports dev
 
-test: lint
+test: lint							## Execute tests
 	$(run) test pytest $(ARGS)
 
 loadtest: migrate
