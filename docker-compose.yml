@@ -38,8 +38,7 @@ services:
   dev:
     <<: *app
     build:
-      target: dev 
-    image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend-django:${VERSION:-latest}          
+      target: dev
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
@@ -57,7 +56,6 @@ services:
     <<: *app  
     build:
       target: tests
-#    image: ghcr.io/amsterdam/bereikbaarheid:latest  # TODO: Uncomment when Jenkins is no longer used
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
