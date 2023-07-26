@@ -22,22 +22,23 @@ services:
       POSTGRES_DB: bereikbaarheid
       POSTGRES_USER: bereikbaarheid
       POSTGRES_PASSWORD: insecure
-    build:
-      dockerfile: Dockerfile_pgrouting
-#    image: ghcr.io/amsterdam/bereikbaarheid-db:latest  # TODO: Uncomment when Jenkins is no longer used
+    image: kartoza/postgis:14-3.2
     networks:
       - backend
 
   app: 
-    <<: *app    
+    <<: *app
+    environment:
+      - DEBUG=false
+      - SECRET_KEY=123456
+      - DJANGO_SETTINGS_MODULE=main.settings
     image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend-django:${VERSION:-latest}
     command: /deploy/docker-run.sh
 
   dev:
     <<: *app
     build:
-      target: dev 
-    image: docker-registry.data.amsterdam.nl/datapunt/bereikbaarheid-backend-django:${VERSION:-latest}          
+      target: dev
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
@@ -55,7 +56,6 @@ services:
     <<: *app  
     build:
       target: tests
-#    image: ghcr.io/amsterdam/bereikbaarheid:latest  # TODO: Uncomment when Jenkins is no longer used
     environment:
       - DEBUG=true
       - SECRET_KEY=123456
