@@ -175,7 +175,7 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
     def get_import_formats(self):
         """Returns available import formats."""
-        return [GEOJSON]
+        return [GEOJSON, base_formats.CSV]
 
     # This will help you to disbale add functionality
     def has_add_permission(self, request):
@@ -271,8 +271,13 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
                 # validation errors. If this is not done validation errors would be
                 # silently skipped.
 
-                data = _read_data(import_file)
-
+                if input_format.get_title() == 'geojson':
+                    data = _read_data(import_file)
+                else: # read other formats
+                    data = bytes()
+                    for chunk in import_file.chunks():
+                        data += chunk
+                                           
                 try:
                     dataset = input_format.create_dataset(data)
                 except Exception as e:
