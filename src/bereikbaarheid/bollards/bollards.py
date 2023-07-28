@@ -84,7 +84,7 @@ raw_query = """
         )
 
         select json_build_object(
-            'geometry', ST_Transform(bollards.geometry, 4326)::json,
+            'geometry', ST_AsGeoJson( ST_Transform(bollards.geometry, 4326))::json,
             'properties', json_build_object(
                 'id', bollards.paal_nr,
                 'type', bollards.type,

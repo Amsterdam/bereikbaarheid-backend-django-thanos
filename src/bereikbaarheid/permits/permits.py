@@ -165,19 +165,23 @@ def _transform_results(result: tuple) -> dict:
     :param result:
     :return:
     """
-    return {
-        "id": result[0],  # id
-        "attributes": {
-            "heavy_goods_vehicle_zone": convert_to_bool(result[2]),  # zone_7_5_boolean
-            "in_amsterdam": convert_to_bool(result[4]),  # boolean_in_amsterdam
-            "low_emission_zone": convert_to_bool(result[1]),  # miliezone_boolean
-            "rvv_permit_needed": convert_to_bool(result[3]),  # rvv_boolean
-            "time_window": result[7],  # venstertijd
-            "wide_road": convert_to_bool(result[8]),  # zone_7_5_detail
-            "distance_to_destination_in_m": result[6],  # afstand_in_m
-            "geom": result[5],  # geom
-        },
-    }
+
+    if result:
+        return {
+            "id": result[0],  # id
+            "attributes": {
+                "heavy_goods_vehicle_zone": convert_to_bool(result[2]),  # zone_7_5_boolean
+                "in_amsterdam": convert_to_bool(result[4]),  # boolean_in_amsterdam
+                "low_emission_zone": convert_to_bool(result[1]),  # miliezone_boolean
+                "rvv_permit_needed": convert_to_bool(result[3]),  # rvv_boolean
+                "time_window": result[7],  # venstertijd
+                "wide_road": convert_to_bool(result[8]),  # zone_7_5_detail
+                "distance_to_destination_in_m": result[6],  # afstand_in_m
+                "geom": result[5],  # geom
+            },
+        }
+    else:
+        return {}
 
 
 def get_permits(data: dict) -> dict:
