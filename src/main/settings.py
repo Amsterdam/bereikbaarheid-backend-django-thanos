@@ -69,7 +69,7 @@ FORCE_SCRIPT_NAME = BASE_URL
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = os.path.join(BASE_URL, "/static/")
-STATIC_ROOT = "static/"
+STATIC_ROOT = "static"
 
 
 TEMPLATES = [
