@@ -271,13 +271,13 @@ class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
                 # validation errors. If this is not done validation errors would be
                 # silently skipped.
 
-                if input_format.get_title() == 'geojson':
+                if input_format.get_title() == "geojson":
                     data = _read_data(import_file)
-                else: # read other formats
+                else:  # read other formats
                     data = bytes()
                     for chunk in import_file.chunks():
                         data += chunk
-                                           
+
                 try:
                     dataset = input_format.create_dataset(data)
                 except Exception as e:
