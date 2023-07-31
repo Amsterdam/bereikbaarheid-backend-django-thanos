@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 
 import os
-from urllib.parse import urljoin
 from pathlib import Path
+from urllib.parse import urljoin
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +34,7 @@ INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-#SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 
 # Application definition
 
