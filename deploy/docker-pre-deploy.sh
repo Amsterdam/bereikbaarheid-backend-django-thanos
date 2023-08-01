@@ -9,4 +9,4 @@ python manage.py check --deploy #--fail-level WARNING
 # migrate the db
 yes yes | python manage.py migrate --noinput
 
-yes yes | python manage.py createcachetable --noinput
+python manage.py createcachetable
