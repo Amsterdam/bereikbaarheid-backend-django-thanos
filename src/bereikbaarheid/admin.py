@@ -7,6 +7,7 @@ from django.template.response import TemplateResponse
 from import_export.admin import ImportExportMixin, ImportMixin
 from import_export.formats import base_formats
 from import_export.forms import ImportExportFormBase
+from import_export.tmp_storages import CacheStorage
 from leaflet.admin import LeafletGeoAdminMixin
 
 from bereikbaarheid.models import (
@@ -66,6 +67,7 @@ class ArrayDagenListFilter(admin.SimpleListFilter):
 
 @admin.register(VenstertijdWeg)
 class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = [
         "link_nr",
         "name",
@@ -85,6 +87,7 @@ class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
 
 @admin.register(Gebied)
 class GebiedAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["id"]
     resource_classes = [GebiedResource]
     modifiable = False  # Make the leaflet map read-only
@@ -103,12 +106,15 @@ class GebiedAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
 @admin.register(Lastbeperking)
 class LastbeperkingAdmin(ImportExportMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
+    tmp_storage_class = CacheStorage
     list_display = ["id", "link_nr", "lastbeperking_in_kg"]
     resource_classes = [LastbeperkingResource]
 
 
 @admin.register(Stremming)
 class StremmingAdmin(ImportExportMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["id", "link_nr", "werkzaamheden", "kenmerk"]
     list_filter = ["start_date", "end_date"]
     resource_classes = [StremmingResource]
@@ -116,6 +122,7 @@ class StremmingAdmin(ImportExportMixin, admin.ModelAdmin):
 
 @admin.register(VerkeersBord)
 class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["id", "bord_id", "geldigheid", "rvv_modelnummer"]
     list_filter = ["geldigheid", "rvv_modelnummer"]
     resource_classes = [VerkeersBordResource]
@@ -124,6 +131,7 @@ class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmi
 
 @admin.register(VerkeersPaal)
 class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["paal_nr", "link_nr", "standplaats", "dagen"]
     list_filter = [
         "type",
@@ -144,6 +152,7 @@ class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdm
 
 @admin.register(VerkeersTelling)
 class VerkeersTellingAdmin(ImportExportMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["volg_nummer", "telpunt_naam", "link_nr", "jaar"]
     list_filter = ["jaar", "type_verkeer", "meet_methode"]
     resource_classes = [VerkeersTellingResource]
@@ -151,6 +160,7 @@ class VerkeersTellingAdmin(ImportExportMixin, admin.ModelAdmin):
 
 @admin.register(Verrijking)
 class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = [
         "id",
         "link_nr",
@@ -168,6 +178,7 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
 
 @admin.register(Vma)
 class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+    tmp_storage_class = CacheStorage
     list_display = ["id", "link_nr", "name"]
     resource_classes = [VmaResource]
     modifiable = False  # Make the leaflet map read-only

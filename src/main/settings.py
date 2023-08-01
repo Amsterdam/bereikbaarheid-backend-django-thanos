@@ -32,9 +32,12 @@ ALLOWED_HOSTS = ["*"]
 X_FRAME_OPTIONS = "ALLOW-FROM *"
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
+_setting = bool(os.getenv("DEBUG", False))
+# flip in development = True, production = False
+_setting ^= _setting
+CSRF_COOKIE_SECURE = _setting
+SESSION_COOKIE_SECURE = _setting
+SECURE_SSL_REDIRECT = _setting
 
 # Application definition
 
