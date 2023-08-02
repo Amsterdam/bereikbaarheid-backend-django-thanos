@@ -141,7 +141,7 @@ raw_query = """
             where v.id = (
                 SELECT id
                 from bereikbaarheid_out_vma_directed a
-                where id > 0
+                where id > 0 and car_network is true
                 order by st_length(
                     st_transform(
                         st_shortestline(
