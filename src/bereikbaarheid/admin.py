@@ -165,10 +165,19 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
         "id",
         "link_nr",
         "binnen_amsterdam",
+        "binnen_polygoon_awb",
+        "milieuzone",
         "zone_zwaar_verkeer_bus",
+        "zone_zwaar_verkeer_non_bus",
         "frc",
     ]
-    list_filter = ["binnen_amsterdam", "wegcategorie_actueel"]
+    list_filter = [
+        "binnen_amsterdam",
+        "binnen_polygoon_awb",
+        "milieuzone",
+        "zone_zwaar_verkeer_bus",
+        "zone_zwaar_verkeer_non_bus",
+    ]
     resource_classes = [VerrijkingResource]
 
     # disable add functionality

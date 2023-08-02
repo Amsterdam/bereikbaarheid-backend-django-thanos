@@ -31,5 +31,4 @@ class VerkeersPaalResource(ModelResource):
         skip_unchanged = True
         report_skipped = True
         exclude = ("id",)
-        import_id_fields = ("geometry",)
         import_id_fields = ("link_nr", "dagen", "begin_tijd", "eind_tijd", "geometry")

@@ -101,7 +101,7 @@ class VerkeersTelling(models.Model):
         verbose_name = "Verkeerstelling"
         verbose_name_plural = "Verkeerstellingen"
 
-    volg_nummer = models.IntegerField(help_text="Volgnummer")
+    volg_nummer = models.IntegerField(unique=True, help_text="Volgnummer")
     lat = models.FloatField(help_text="Latitude")
     lon = models.FloatField(help_text="Longitude")
     link_nr = models.IntegerField(blank=True, null=True, help_text="vma_link_nr")
@@ -129,7 +129,7 @@ class Verrijking(models.Model):
         verbose_name = "Verrijking"
         verbose_name_plural = "Verrijkingen"
 
-    link_nr = models.IntegerField(help_text="linknr")
+    link_nr = models.IntegerField(unique=True, help_text="linknr")
     binnen_amsterdam = models.BooleanField(blank=True, null=True)
     binnen_polygoon_awb = models.BooleanField(blank=True, null=True)
     milieuzone = models.BooleanField(
@@ -172,7 +172,7 @@ class Lastbeperking(models.Model):
         verbose_name = "Lastbeperking"
         verbose_name_plural = "Lastbeperkingen"
 
-    link_nr = models.IntegerField()
+    link_nr = models.IntegerField(unique=True)
     lastbeperking_in_kg = models.FloatField(blank=True, null=True)
 
 
@@ -186,7 +186,7 @@ class Vma(models.Model):
         verbose_name = "Vma"
         verbose_name_plural = "Vma"
 
-    link_nr = models.FloatField()  # blank=True, null=True)
+    link_nr = models.FloatField(unique=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     direction = models.FloatField(blank=True, null=True)
     length = models.FloatField(blank=True, null=True)
