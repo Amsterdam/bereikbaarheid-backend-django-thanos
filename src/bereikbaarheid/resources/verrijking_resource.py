@@ -1,3 +1,4 @@
+from import_export.instance_loaders import CachedInstanceLoader
 from import_export.resources import ModelResource
 
 from bereikbaarheid.models import Verrijking
@@ -25,6 +26,8 @@ class VerrijkingResource(ModelResource):
     class Meta:
         model = Verrijking
         skip_unchanged = True
-        report_skipped = True
+        report_skipped = False
         exclude = ("id",)
         import_id_fields = ("link_nr",)
+        instance_loader_class = CachedInstanceLoader
+        use_bulk = True
