@@ -15,6 +15,9 @@ import os
 from pathlib import Path
 from urllib.parse import urljoin
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -196,3 +199,11 @@ LOGGING = {
         },
     },
 }
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        ignore_errors=["ExpiredSignatureError"],
+    )
