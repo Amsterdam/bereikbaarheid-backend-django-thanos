@@ -5,3 +5,4 @@ pytz
 django-import-export>= 3.1.0
 django-leaflet
 pandas
+sentry-sdk
