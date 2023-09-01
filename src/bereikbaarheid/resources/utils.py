@@ -123,7 +123,7 @@ def convert_to_date(date: str = None) -> datetime:
         return _date        
     except:
         raise ValueError(
-                f"verkeerd datumformat voor {date}, gewenste formats zijn {formats_allowed}"
+                f"verkeerd datumformat voor {date}, toegestane formats zijn {formats_allowed}"
         )
 
    
