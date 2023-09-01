@@ -108,21 +108,25 @@ def refresh_materialized(db_table: str):
 # -------------------------------------------
 
 
-def convert_to_date(date: str = None, format: str = "%d/%m/%y %H:%M") -> datetime:
-    """Convert string format to datetime"""
+def convert_to_date(date: str = None) -> datetime:
+    """Convert string format %d/%m/%y %H:%M of %Y-%m-%d %H:%M:%S.%f to datetime"""
 
+    formats_allowed = ["%d/%m/%y %H:%M", "%Y-%m-%d %H:%M:%S.%f"]
     try:
-        _date = datetime.datetime.strptime(date, format)
-    except:
-        try:
-            format = "%Y-%m-%d %H:%M:%S.%f"
-            _date = datetime.datetime.strptime(date, format)
-        except:
-            raise ValueError(
-                f"verkeerd datumformat voor {date}, gewenst format is '%d/%m/%y %H:%M' of '%Y-%m-%d %H:%M:%S.%f'"
-            )
+        for f in formats_allowed:
+            try:
+                _date = datetime.datetime.strptime(date, f)
+                break
+            except:
+                pass
 
-    return _date
+        return _date        
+    except:
+        raise ValueError(
+                f"verkeerd datumformat voor {date}, gewenste formats zijn {formats_allowed}"
+        )
+
+   
 
 
 def convert_to_time(in_time: str = None):
