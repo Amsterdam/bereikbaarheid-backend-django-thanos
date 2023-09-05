@@ -72,9 +72,7 @@ pipeline {
         }
 
         stage('Deploy to production') {
-            when {
-                tag pattern: "^(?i)\\d+\\.\\d+\\.\\d+(?!-rc.*)", comparator: "REGEXP"
-            }
+            when { buildingTag() }
             steps {
                 sh 'VERSION=production make push'
                 build job: 'Subtask_Openstack_Playbook', parameters: [
@@ -85,13 +83,6 @@ pipeline {
                         value: "-e 'deployversion=${VERSION} cmdb_id=${CMDB_ID}'"
                     )
                 ], wait: true
-
-                slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE <<
-                    [
-                        "color": "#36a64f",
-                        "title": "Deploy to production succeeded :rocket:",
-                    ]
-                ])
             }
         }
     }
