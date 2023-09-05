@@ -113,15 +113,15 @@ def convert_to_date(date: str = None) -> datetime:
 
     formats_allowed = ["%d/%m/%y %H:%M", "%Y-%m-%d %H:%M:%S.%f"]
     try:
-        for f in formats_allowed:
+        for format in formats_allowed:
             try:
-                _date = datetime.datetime.strptime(date, f)
+                _date = datetime.datetime.strptime(date, format)
                 break
-            except:
+            except ValueError:
                 pass
 
         return _date        
-    except:
+    except UnboundLocalError:
         raise ValueError(
                 f"verkeerd datumformat voor {date}, toegestane formats zijn {formats_allowed}"
         )
