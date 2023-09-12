@@ -109,7 +109,7 @@ def refresh_materialized(db_table: str):
 
 
 def convert_to_date(date: str = None) -> datetime:
-    """Convert string format %d/%m/%y %H:%M of %Y-%m-%d %H:%M:%S.%f to datetime"""
+    """Convert string format %d/%m/%y %H:%M or %Y-%m-%d %H:%M:%S.%f to datetime"""
 
     formats_allowed = ["%d/%m/%y %H:%M", "%Y-%m-%d %H:%M:%S.%f"]
     try:
