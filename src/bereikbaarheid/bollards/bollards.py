@@ -192,11 +192,12 @@ def prepare_pgr_dijkstra_cost_query(day_of_the_week, time_from, time_to):
         "time_to": time_to,
     }
 
-    cursor = connection.cursor()
-
-    return cursor.mogrify(
+    with connection.cursor() as cursor:
+        result = cursor.mogrify(
         pgr_dijkstra_cost_query, pgr_dijkstra_cost_query_params
     ).decode("utf-8")
+
+    return result
 
 
 def _transform_results(results: list) -> list[dict]:
