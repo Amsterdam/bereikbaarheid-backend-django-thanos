@@ -128,6 +128,11 @@ class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmi
     resource_classes = [VerkeersBordResource]
     modifiable = False  # Make the leaflet map read-only
 
+    def get_import_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
+
 
 @admin.register(VerkeersPaal)
 class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
@@ -184,6 +189,11 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    def get_import_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
+    
 
 @admin.register(Vma)
 class VmaAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):

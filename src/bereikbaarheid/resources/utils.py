@@ -59,11 +59,16 @@ class SCSV(CSV):
         return "semicolon_csv"
 
     def create_dataset(self, in_stream, **kwargs):
+
+        if isinstance(in_stream, bytes) and self.encoding:
+            in_stream = in_stream.decode(self.encoding)
+
         delimiter = csv.Sniffer().sniff(in_stream, delimiters=";,").delimiter
+
         if delimiter != ";":
             raise ValidationError(
-                f"CSV format is using `{delimiter}` delimiter,"
-                + " but it should be `;` delimiter"
+                f"file is using `{delimiter}` delimiter,"
+                + " but semicolon_csv format is with `;` delimiter"
             )
         kwargs["delimiter"] = delimiter
         kwargs["format"] = "csv"
