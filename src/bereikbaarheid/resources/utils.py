@@ -59,7 +59,6 @@ class SCSV(CSV):
         return "semicolon_csv"
 
     def create_dataset(self, in_stream, **kwargs):
-
         if isinstance(in_stream, bytes) and self.encoding:
             in_stream = in_stream.decode(self.encoding)
 
@@ -129,11 +128,10 @@ def convert_to_date(date: str = None) -> datetime:
 
     if _date == None:
         raise ValueError(
-                f"verkeerd datumformat voor {date}, toegestane formats zijn {formats_allowed}")
+            f"verkeerd datumformat voor {date}, toegestane formats zijn {formats_allowed}"
+        )
     else:
-        return _date        
-
-   
+        return _date
 
 
 def convert_to_time(in_time: str = None):
