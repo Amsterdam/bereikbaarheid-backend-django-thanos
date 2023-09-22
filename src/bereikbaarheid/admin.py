@@ -2,6 +2,8 @@ import json
 import warnings
 
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
 from import_export.admin import ImportExportMixin, ImportMixin
@@ -33,6 +35,39 @@ from bereikbaarheid.resources.verrijking_resource import VerrijkingResource
 from bereikbaarheid.resources.vma_resource import VmaResource
 
 from .validation import days_of_the_week_abbreviated
+
+admin.site.unregister(User)
+
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    """Custum UsterAdmin"""
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        is_superuser = request.user.is_superuser
+        disabled_fields = set()
+
+        if not is_superuser:
+            disabled_fields |= {
+                "is_superuser",
+                "user_permissions",
+            }
+
+        # Prevent non-superusers from editing their own permissions
+        if not is_superuser and obj is not None and obj == request.user:
+            disabled_fields |= {
+                "is_staff",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            }
+
+        for f in disabled_fields:
+            if f in form.base_fields:
+                form.base_fields[f].disabled = True
+
+        return form
 
 
 class ArrayDagenListFilter(admin.SimpleListFilter):
@@ -128,6 +163,11 @@ class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmi
     resource_classes = [VerkeersBordResource]
     modifiable = False  # Make the leaflet map read-only
 
+    def get_import_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
+
 
 @admin.register(VerkeersPaal)
 class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
@@ -183,6 +223,11 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
     # disable add functionality
     def has_add_permission(self, request):
         return False
+
+    def get_import_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
 
 
 @admin.register(Vma)
