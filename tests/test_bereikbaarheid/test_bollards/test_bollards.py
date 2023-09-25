@@ -42,27 +42,27 @@ class TestBollards:
     def test_transform_results(self):
         assert _transform_results(None) == []
 
-
-    params_valid = [
-        {
-            "dayOfTheWeek": "di",
-            "lat": "52.371198",
-            "lon": "4.8920418",
-            "timeFrom": "06:00",
-            "timeTo": "12:00",
-        },
-        {
-            "lat": "52.371198",
-            "lon": "4.8920418",
-        },
-    ]
-
     @pytest.mark.django_db
     @patch(
         "bereikbaarheid.bollards.bollards.django_query_db",
         MagicMock(return_value=QUERY_RESULT[0]),
     )
-    @pytest.mark.parametrize("test_input", params_valid)
+    @pytest.mark.parametrize(
+        "test_input", 
+        [
+            {
+                "dayOfTheWeek": "di",
+                "lat": "52.371198",
+                "lon": "4.8920418",
+                "timeFrom": "06:00",
+                "timeTo": "12:00",
+            },
+            {
+                "lat": "52.371198",
+                "lon": "4.8920418",
+            },
+        ]
+    )
     def test_get_bollards(self, test_input):
         """
         Mock the query result because of an empty db and check if the flow works
