@@ -1,8 +1,8 @@
 #!groovy
-def PROJECT_NAME = "bereikbaarheid-backend"
+def PROJECT_NAME = "bereikbaarheid-backend-secure"
 def SLACK_CHANNEL = '#opdrachten-deployments'
 def PLAYBOOK = 'deploy.yml'
-def CMDB_ID = 'app_bereikbaarheid-backend'
+def CMDB_ID = 'app_bereikbaarheid-backend-secure'
 def SLACK_MESSAGE = [
     "title_link": BUILD_URL,
     "fields": [
