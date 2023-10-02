@@ -27,7 +27,7 @@ markuppy==1.14
     # via tablib
 marshmallow==3.20.1
     # via -r requirements.in
-numpy==1.25.2
+numpy==1.26.0
     # via pandas
 odfpy==1.4.1
     # via tablib
@@ -35,9 +35,9 @@ openpyxl==3.1.2
     # via tablib
 packaging==23.1
     # via marshmallow
-pandas==2.1.0
+pandas==2.1.1
     # via -r requirements.in
-psycopg2==2.9.7
+psycopg2==2.9.8
     # via -r requirements.in
 python-dateutil==2.8.2
     # via pandas
@@ -55,11 +55,11 @@ sqlparse==0.4.4
     # via django
 tablib[html,ods,xls,xlsx,yaml]==3.5.0
     # via django-import-export
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via asgiref
 tzdata==2023.3
     # via pandas
-urllib3==2.0.4
+urllib3==2.0.5
     # via sentry-sdk
 xlrd==2.0.1
     # via tablib
