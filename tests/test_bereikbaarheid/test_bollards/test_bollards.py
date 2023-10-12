@@ -48,7 +48,7 @@ class TestBollards:
         MagicMock(return_value=QUERY_RESULT[0]),
     )
     @pytest.mark.parametrize(
-        "test_input", 
+        "test_input",
         [
             {
                 "dayOfTheWeek": "di",
@@ -61,7 +61,7 @@ class TestBollards:
                 "lat": "52.371198",
                 "lon": "4.8920418",
             },
-        ]
+        ],
     )
     def test_get_bollards(self, test_input):
         """
