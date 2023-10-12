@@ -9,6 +9,16 @@ help_text is the original table name
 """
 
 
+class TimeStampMixin(models.Model):
+    """mixin van twee velden die automatisch opslaan wanneer het record is aangemaakt en voor eht laatst aangepast"""
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
 class Gebied(models.Model):
     """
     naam oude db-tabel: bereikbaarheid.bd_gebieden
@@ -21,7 +31,7 @@ class Gebied(models.Model):
     geom = PolygonField(srid=28992)
 
 
-class Stremming(models.Model):
+class Stremming(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_stremming
     help_text = kolomnaam oude db-tabel
@@ -40,7 +50,7 @@ class Stremming(models.Model):
     end_date = models.DateTimeField()
 
 
-class VenstertijdWeg(models.Model):
+class VenstertijdWeg(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_venstertijdwegen
     help_text = kolomnaam oude db-tabel
@@ -59,7 +69,7 @@ class VenstertijdWeg(models.Model):
     eind_tijd = models.TimeField(blank=True, null=True)
 
 
-class VerkeersBord(models.Model):
+class VerkeersBord(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_verkeersborden
     help_text = kolomnaam oude db-tabel
@@ -91,7 +101,7 @@ class VerkeersBord(models.Model):
         return super().save(*args, **kwargs)
 
 
-class VerkeersTelling(models.Model):
+class VerkeersTelling(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_verkeerstellingen
     help_text = kolomnaam oude db-tabel
@@ -119,7 +129,7 @@ class VerkeersTelling(models.Model):
     meet_methode = models.CharField(max_length=255, help_text="Meetmethode")
 
 
-class Verrijking(models.Model):
+class Verrijking(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_vma_beleidsmatige_verrijking
     help_text = kolomnaam oude db-tabel
@@ -163,7 +173,7 @@ class Verrijking(models.Model):
     frc = models.IntegerField(blank=True, null=True)
 
 
-class Lastbeperking(models.Model):
+class Lastbeperking(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.lastbeperking_in_zzv_zonder_vb
     """
@@ -173,7 +183,7 @@ class Lastbeperking(models.Model):
         verbose_name_plural = "Lastbeperkingen"
 
     link_nr = models.IntegerField(unique=True)
-    lastbeperking_in_kg = models.FloatField(blank=True, null=True)
+    lastbeperking_in_kg = models.FloatField()
 
 
 class Vma(models.Model):
@@ -201,7 +211,7 @@ class Vma(models.Model):
     geom = MultiLineStringField(srid=28992)
 
 
-class VerkeersPaal(models.Model):
+class VerkeersPaal(TimeStampMixin):
     """
     naam oude db-tabel: bereikbaarheid.bd_verkeerspalen
     help_text = kolomnaam oude db-tabel
