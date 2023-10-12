@@ -100,8 +100,22 @@ class ArrayDagenListFilter(admin.SimpleListFilter):
         return queryset
 
 
+class ImportExportFormatsMixin(ImportExportMixin):
+    """overwrites the standard get_import_formats and get_export_formats from the ImportExportMixin"""
+
+    def get_import_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
+
+    def get_export_formats(self):
+        """Returns available import formats."""
+        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
+        return formats
+
+
 @admin.register(VenstertijdWeg)
-class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
+class VenstertijdWegAdmin(ImportExportFormatsMixin, admin.ModelAdmin):
     tmp_storage_class = CacheStorage
     list_display = [
         "link_nr",
@@ -110,14 +124,11 @@ class VenstertijdWegAdmin(ImportExportMixin, admin.ModelAdmin):
         "dagen",
         "begin_tijd",
         "eind_tijd",
+        "created_at",
+        "updated_at",
     ]
-    list_filter = ["verkeersbord", ArrayDagenListFilter, "begin_tijd", "eind_tijd"]
+    list_filter = ["verkeersbord", ArrayDagenListFilter, "created_at", "updated_at"]
     resource_classes = [VenstertijdWegResource]
-
-    def get_import_formats(self):
-        """Returns available import formats."""
-        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
-        return formats
 
 
 @admin.register(Gebied)
@@ -140,39 +151,62 @@ class GebiedAdmin(ImportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
 
 
 @admin.register(Lastbeperking)
-class LastbeperkingAdmin(ImportExportMixin, admin.ModelAdmin):
+class LastbeperkingAdmin(ImportExportFormatsMixin, admin.ModelAdmin):
     tmp_storage_class = CacheStorage
-    tmp_storage_class = CacheStorage
-    list_display = ["id", "link_nr", "lastbeperking_in_kg"]
+    list_display = ["id", "link_nr", "lastbeperking_in_kg", "created_at", "updated_at"]
+    list_filter = ["created_at", "updated_at"]
     resource_classes = [LastbeperkingResource]
 
 
 @admin.register(Stremming)
-class StremmingAdmin(ImportExportMixin, admin.ModelAdmin):
+class StremmingAdmin(ImportExportFormatsMixin, admin.ModelAdmin):
     tmp_storage_class = CacheStorage
-    list_display = ["id", "link_nr", "werkzaamheden", "kenmerk"]
-    list_filter = ["start_date", "end_date"]
+    list_display = [
+        "id",
+        "link_nr",
+        "werkzaamheden",
+        "kenmerk",
+        "created_at",
+        "updated_at",
+    ]
+    list_filter = ["start_date", "end_date", "created_at", "updated_at"]
     resource_classes = [StremmingResource]
 
 
 @admin.register(VerkeersBord)
-class VerkeersBordAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+class VerkeersBordAdmin(
+    ImportExportFormatsMixin, LeafletGeoAdminMixin, admin.ModelAdmin
+):
     tmp_storage_class = CacheStorage
-    list_display = ["id", "bord_id", "geldigheid", "rvv_modelnummer"]
-    list_filter = ["geldigheid", "rvv_modelnummer"]
+    list_display = [
+        "id",
+        "bord_id",
+        "geldigheid",
+        "rvv_modelnummer",
+        "created_at",
+        "updated_at",
+    ]
+    list_filter = ["geldigheid", "rvv_modelnummer", "created_at", "updated_at"]
     resource_classes = [VerkeersBordResource]
     modifiable = False  # Make the leaflet map read-only
-
-    def get_import_formats(self):
-        """Returns available import formats."""
-        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
-        return formats
+    ordering = ("bord_id",)
+    search_help_text = "search by bord id"
+    search_fields = ["bord_id"]
 
 
 @admin.register(VerkeersPaal)
-class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdmin):
+class VerkeersPalenAdmin(
+    ImportExportFormatsMixin, LeafletGeoAdminMixin, admin.ModelAdmin
+):
     tmp_storage_class = CacheStorage
-    list_display = ["paal_nr", "link_nr", "standplaats", "dagen"]
+    list_display = [
+        "paal_nr",
+        "link_nr",
+        "standplaats",
+        "dagen",
+        "created_at",
+        "updated_at",
+    ]
     list_filter = [
         "type",
         "toegangssysteem",
@@ -180,6 +214,8 @@ class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdm
         "beheerorganisatie",
         "verkeersbord",
         "jaar_aanleg",
+        "created_at",
+        "updated_at",
     ]
     resource_classes = [VerkeersPaalResource]
     modifiable = False  # Make the leaflet map read-only
@@ -191,15 +227,22 @@ class VerkeersPalenAdmin(ImportExportMixin, LeafletGeoAdminMixin, admin.ModelAdm
 
 
 @admin.register(VerkeersTelling)
-class VerkeersTellingAdmin(ImportExportMixin, admin.ModelAdmin):
+class VerkeersTellingAdmin(ImportExportFormatsMixin, admin.ModelAdmin):
     tmp_storage_class = CacheStorage
-    list_display = ["volg_nummer", "telpunt_naam", "link_nr", "jaar"]
-    list_filter = ["jaar", "type_verkeer", "meet_methode"]
+    list_display = [
+        "volg_nummer",
+        "telpunt_naam",
+        "link_nr",
+        "jaar",
+        "created_at",
+        "updated_at",
+    ]
+    list_filter = ["jaar", "type_verkeer", "meet_methode", "created_at", "updated_at"]
     resource_classes = [VerkeersTellingResource]
 
 
 @admin.register(Verrijking)
-class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
+class VerrijkingAdmin(ImportExportFormatsMixin, admin.ModelAdmin):
     tmp_storage_class = CacheStorage
     list_display = [
         "id",
@@ -210,6 +253,8 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
         "zone_zwaar_verkeer_bus",
         "zone_zwaar_verkeer_non_bus",
         "frc",
+        "created_at",
+        "updated_at",
     ]
     list_filter = [
         "binnen_amsterdam",
@@ -217,17 +262,14 @@ class VerrijkingAdmin(ImportExportMixin, admin.ModelAdmin):
         "milieuzone",
         "zone_zwaar_verkeer_bus",
         "zone_zwaar_verkeer_non_bus",
+        "created_at",
+        "updated_at",
     ]
     resource_classes = [VerrijkingResource]
 
     # disable add functionality
     def has_add_permission(self, request):
         return False
-
-    def get_import_formats(self):
-        """Returns available import formats."""
-        formats = [SCSV, base_formats.XLSX, base_formats.CSV]
-        return formats
 
 
 @admin.register(Vma)
