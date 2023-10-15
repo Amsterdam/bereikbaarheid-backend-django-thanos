@@ -12,7 +12,7 @@ defusedxml==0.7.1
     # via odfpy
 diff-match-patch==20230430
     # via django-import-export
-django==4.1.11
+django==4.1.12
     # via
     #   -r requirements.in
     #   django-import-export
@@ -27,17 +27,17 @@ markuppy==1.14
     # via tablib
 marshmallow==3.20.1
     # via -r requirements.in
-numpy==1.26.0
+numpy==1.26.1
     # via pandas
 odfpy==1.4.1
     # via tablib
 openpyxl==3.1.2
     # via tablib
-packaging==23.1
+packaging==23.2
     # via marshmallow
 pandas==2.1.1
     # via -r requirements.in
-psycopg2==2.9.8
+psycopg2==2.9.9
     # via -r requirements.in
 python-dateutil==2.8.2
     # via pandas
@@ -47,7 +47,7 @@ pytz==2023.3.post1
     #   pandas
 pyyaml==6.0.1
     # via tablib
-sentry-sdk==1.31.0
+sentry-sdk==1.32.0
     # via -r requirements.in
 six==1.16.0
     # via python-dateutil
@@ -59,7 +59,7 @@ typing-extensions==4.8.0
     # via asgiref
 tzdata==2023.3
     # via pandas
-urllib3==2.0.5
+urllib3==2.0.6
     # via sentry-sdk
 xlrd==2.0.1
     # via tablib
