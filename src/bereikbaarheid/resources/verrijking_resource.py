@@ -16,6 +16,9 @@ class VerrijkingResource(ModelResource):
         # mapping of the model.py columnnames
         dataset.headers = [col_mapping.get(item, item) for item in dataset.headers]
 
+    def before_save_instance(self, instance, using_transactions, dry_run):
+        instance.dry_run = dry_run  # set a temporal flag for dry-run mode
+
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         # refresh materialized vieuws when dry_run = False
         if not dry_run:
@@ -27,7 +30,7 @@ class VerrijkingResource(ModelResource):
         model = Verrijking
         skip_unchanged = True
         report_skipped = False
-        exclude = ("id",)
+        exclude = ("id", "created_at", "updated_at")
         import_id_fields = ("link_nr",)
         instance_loader_class = CachedInstanceLoader
         use_bulk = True

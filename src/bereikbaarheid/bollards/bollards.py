@@ -226,8 +226,8 @@ def get_bollards(data: dict):
 
     # optional
     _day_of_the_week = data.get("day_of_the_week", None)
-    _time_from = data.get("time_from",None)
-    _time_to = data.get("time_to",None)
+    _time_from = data.get("time_from", None)
+    _time_to = data.get("time_to", None)
 
     results = django_query_db(
         raw_query,

@@ -73,6 +73,18 @@ class SCSV(CSV):
         kwargs["format"] = "csv"
         return tablib.import_set(in_stream, **kwargs)
 
+    def export_data(self, dataset, **kwargs):
+        """overwrite export_data from import_export.formats.base_formats for setting delimiter"""
+        # kwargs rewrite is necessery for being able to use dataset.export("csv")
+        kwargs.pop("escape_output", None)
+        if kwargs.pop("escape_html", None):
+            self._escape_html(dataset)
+        if kwargs.pop("escape_formulae", None):
+            self._escape_formulae(dataset)
+
+        kwargs["delimiter"] = ";"
+        return dataset.export("csv", **kwargs)
+
 
 # --------------------------------------
 
