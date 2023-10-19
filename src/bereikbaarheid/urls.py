@@ -22,6 +22,7 @@ urlpatterns = [
     path("v1/roads/prohibitory/", ProhibitorView.as_view()),
     path("v1/roads/isochrones/", IsochronesView.as_view()),
     path("v1/bollards/", BollardsView.as_view()),
+    path("bereikbaarheid/v1/bollards/", BollardsView.as_view()),  # Remove once EnableU calls the new domain
     path(
         "swagger/openapi.yml",
         TemplateView.as_view(
